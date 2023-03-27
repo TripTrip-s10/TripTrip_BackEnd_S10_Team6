@@ -38,6 +38,7 @@ public class UserController extends HttpServlet {
 			path = join(request, response);
 			redirect(request, response, path);
 		} else if ("login".equals(action)) {
+			System.out.println("plz");
 			path = login(request, response);
 			forward(request, response, path);
 		} else if ("logout".equals(action)) {
