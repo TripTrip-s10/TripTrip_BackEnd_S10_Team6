@@ -25,7 +25,7 @@ public class MapDaoImpl implements MapDao{
 		return MapDao;
 	}
 	
-	public List<MapDto> listAll(Map<String,Integer> map) throws SQLException{
+	public List<MapDto> list(Map<String,String> map) throws SQLException{
 		List<MapDto> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -35,10 +35,10 @@ public class MapDaoImpl implements MapDao{
 			StringBuilder sql = new StringBuilder();
 			sql.append("select title, addr1, first_image, latitude,longitude\n");
 			sql.append("from attraction_info\n");
-			sql.append("where sido_code = ? and content_type_id = ?\n");
+			sql.append("where sido_code = ?\n");
+			sql.append("limit 100\n");
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setInt(1, map.get("areaCode"));
-			pstmt.setInt(2, map.get("categoryCode"));
+			pstmt.setString(1, map.get("areaCode"));
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MapDto mapDto = new MapDto();

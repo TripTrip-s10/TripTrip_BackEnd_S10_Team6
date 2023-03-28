@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<c:set var="root" value="${pageContext.request.contextPath}" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <!-- 추천 지역 페이지 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -17,12 +18,12 @@
 <link rel="icon" href="../assets/img/title-icon.png"
 	type="image/icon type" />
 
-<link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${root}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 <!-- Additional CSS Files -->
-<link rel="stylesheet" href="../assets/css/fontawesome.css" />
-<link rel="stylesheet" href="../assets/css/template.css" />
-<link rel="stylesheet" href="../assets/css/animate.css" />
+<link rel="stylesheet" href="${root}/assets/css/fontawesome.css" />
+<link rel="stylesheet" href="${root}/assets/css/template.css" />
+<link rel="stylesheet" href="${root}/assets/css/animate.css" />
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 </head>
@@ -67,28 +68,16 @@
 						<div class="col-lg-8">
 							<div class="featured-games header-text">
 								<div class="heading-section">
-									<form class="d-flex my-3" onsubmit="return false;"
-										role="search">
-										<select id="search-area" class="form-select me-2">
-											<option value="0" selected>시/도</option>
-											<option value="1">서울</option>
-											<option value="2">인천</option>
-											<option value="3">대전</option>
-											<option value="4">대구</option>
-											<option value="5">광주</option>
+									<form class="d-flex my-3" id="form-search" action="">
+										<input type="hidden" name="action" value="list">
+										<select id="searchArea" name = "areaCode" class="form-select me-2">
+											<option value="1" <c:if test="${param.areaCode == '1'}">selected="selected"</c:if>>서울</option>
+											<option value="2" <c:if test="${param.areaCode == '2'}">selected="selected"</c:if>>인천</option>
+											<option value="3" <c:if test="${param.areaCode == '3'}">selected="selected"</c:if>>대전</option>
+											<option value="4" <c:if test="${param.areaCode == '4'}">selected="selected"</c:if>>대구</option>
+											<option value="5" <c:if test="${param.areaCode == '5'}">selected="selected"</c:if>>광주</option>
 										</select>
-										<!-- <select id="search-content-id" class="form-select me-2">
-                        <option value="0" selected>군/구</option>
-                      </select> -->
-										<!-- <input
-                        id="search-keyword"
-                        class="form-control me-2"
-                        type="search"
-                        placeholder="검색어"
-                        aria-label="검색어"
-                      /> -->
-										<button id="btn-search" class="btn btn-outline-success"
-											type="button">검색</button>
+										<button id="btn-search" class="btn btn-outline-success" type="button">검색</button>
 									</form>
 								</div>
 								<div id="map" style="width: 100%; height: 540px"></div>
@@ -99,10 +88,10 @@
 								<div class="row-4">
 									<div class="heading-section" style="height: 15px">
 										<div class="text-button">
-											<a href="#" class="active" onclick="getAllList()">전체</a>
+											<a href="${root}/map?action=list" class="active">전체</a>
 										</div>
 										<div class="text-button">
-											<a href="#" class="non-active" onclick="getFoodList()">음식점</a>
+											<a href="${root}/map?action=list" class="non-active">음식점</a>
 										</div>
 										<div class="text-button">
 											<a href="#" class="non-active" onclick="getLodgingList()">숙소</a>
@@ -126,12 +115,12 @@
 								</div>
 								<div class="row">
 									<ul style="overflow: auto; height: 518px" id="area-list">
-										<c:forEach var="list" items="${lists}">
+										<c:forEach var="list" items="${mapList}">
 											<li>
 												<div class="place" onclick="clickPlace(this)">
 													<img src="${list.imageUrl}"alt="" class="templatemo-item" />
 													<h4 id="area-title">${list.title}</h4>
-													<h6>${list.addr1}</h6>
+													<h6>${list.addr}</h6>
 												</div>
 											</li>
 										</c:forEach>
@@ -148,7 +137,11 @@
 			</div>
 		</div>
 	</div>
-
+	<form id="form-param" method="get" action="">
+      <input type="hidden" id="p-action" name="action" value="list">
+      <input type="hidden" id="p-areaCode" name="areaCode" value="">
+      <input type="hidden" id="p-categoryCode" name="categoryCode" value="">
+    </form>
 	<footer>
 		<div class="container">
 			<div class="row">
@@ -166,19 +159,28 @@
 
 	<!-- Scripts -->
 	<!-- Bootstrap core JavaScript -->
-	<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<!-- JS File -->
 	<!-- <script src="../assets/js/map.js"></script> -->
-	<script src="../assets/js/main.js"></script>
+	<script src="${root}/assets/js/main.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9da8d6f85b070cbbce9075ad5616807"></script>
 	<script>
+	  // 시/도 선택 
       document.getElementById("btn-search").addEventListener("click", function(){
-        let areaCode = document.getElementById("search-area").value;
-		console.log(${root});
-        location.href="/web/map?action=listAll&areaCode=" + areaCode;
+        let form = document.querySelector("#form-search");
+       	form.setAttribute("action","${root}/map");
+       	form.submit();
       });
-
+	
+	  // parameter hidden 
+	  var tagList = document.querySelectorAll(".text-button");
+      tagList.forEach((tag) => tag.addEventListener("click",function(){
+		  console.log("clicked!!");
+		  document.querySelector("#p-areaCode").value = "${param.areaCode}";
+		//  document.querySelector("#p-categoryCode").value = "${param.categoryCode}";
+		  document.querySelector("#form-param").submit();
+	  }));
       // 인증키
       var serviceKey =
         "JCyOGVbsb1Yqpl0GcIpGaNz0ymTTpdCqWV1IOSvYucmTFnyhHyfiBZzy0C2zR45oWXCw%2FO96GtOOsAPPQYsm8A%3D%3D";
@@ -279,7 +281,7 @@
       // 버튼 클릭 디자인 변경
       function changeButtonDesign(idx) {
         let btnList = document.querySelectorAll(".text-button");
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 8; i++) {
           if (i == idx) {
             btnList[i].childNodes[0].nextSibling.setAttribute("class", "active");
           } else {

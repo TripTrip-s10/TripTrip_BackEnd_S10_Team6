@@ -23,8 +23,8 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<MapDto> listAll(Map<String, Integer> map) throws Exception{
-		return MapDao.listAll(map);
+	public List<MapDto> list(Map<String, String> map) throws Exception{
+		return MapDao.list(map);
 	}
 
 }

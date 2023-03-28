@@ -8,6 +8,6 @@ import com.triptrip.map.dto.MapDto;
 
 public interface MapDao {
 
-	List<MapDto> listAll(Map<String, Integer> map) throws SQLException;
+	List<MapDto> list(Map<String, String> map) throws SQLException;
 
 }

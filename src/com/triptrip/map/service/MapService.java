@@ -7,6 +7,6 @@ import com.triptrip.map.dto.MapDto;
 
 public interface MapService {
 
-	List<MapDto> listAll(Map<String, Integer> map) throws Exception;
+	List<MapDto> list(Map<String, String> map) throws Exception;
 	
 }

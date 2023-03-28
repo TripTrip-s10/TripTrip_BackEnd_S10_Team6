@@ -1,7 +1,6 @@
 package com.triptrip.map.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.triptrip.util.ParameterCheck;
 import com.triptrip.map.dto.MapDto;
 import com.triptrip.map.service.MapService;
 import com.triptrip.map.service.MapServiceImpl;
@@ -23,10 +22,12 @@ import com.triptrip.map.service.MapServiceImpl;
 public class MapController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private int areaCode;
-	private int categoryCode;
+	private String areaCode;
+	private String categoryCode;
+	private String queryString;
 	
 	private MapService mapService;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -35,12 +36,14 @@ public class MapController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		areaCode = Integer.parseInt(request.getParameter("areaCode"));
-		System.out.println("areaCode = " + areaCode);
+		areaCode = ParameterCheck.nullToBlank(request.getParameter("areaCode"));
+		categoryCode = ParameterCheck.nullToBlank(request.getParameter("categoryCode"));
+		queryString = "?areaCode=" +areaCode + "&categoryCode=" + categoryCode;
 		String path = "";
-		if(action.equals("listAll")) {
-			path = listAll(request,response);
-			categoryCode = 0;
+		
+		if("list".equals(action)) {
+			path = list(request,response);
+			System.out.println(path);
 			forward(request,response,path);
 		}
 	}
@@ -60,18 +63,17 @@ public class MapController extends HttpServlet {
 	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
 		response.sendRedirect(request.getContextPath() + path);
 	}
-	private String listAll(HttpServletRequest request, HttpServletResponse response) {
+
+	
+	private String list(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Map<String,Integer> map = new HashMap<String, Integer>();
+			Map<String,String> map = new HashMap<String, String>();
 			map.put("areaCode", areaCode);
 			map.put("categoryCode",categoryCode);
-
-			List<MapDto> list = mapService.listAll(map); // 글 목록 
-			request.setAttribute("lists", list);
-			return "/map/list.jsp";
+			List<MapDto> mapList = mapService.list(map); // 글 목록 
+			request.setAttribute("mapList", mapList);
+			return "/map/list.jsp" + queryString;
 		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("msg", "글목록 출력 중 문제 발생!!!");
 			return "/error/error.jsp";
 		}
 	}

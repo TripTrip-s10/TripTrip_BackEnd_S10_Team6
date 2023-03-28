@@ -36,6 +36,11 @@ public class MapDto {
 	public void setLng(double lng) {
 		this.lng = lng;
 	}
+	@Override
+	public String toString() {
+		return "MapDto [title=" + title + ", addr=" + addr + ", imageUrl=" + imageUrl + ", lat=" + lat + ", lng=" + lng
+				+ "]";
+	}
 	
 	
 }
