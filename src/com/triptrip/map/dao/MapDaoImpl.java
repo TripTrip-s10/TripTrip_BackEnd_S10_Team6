@@ -35,10 +35,17 @@ public class MapDaoImpl implements MapDao{
 			StringBuilder sql = new StringBuilder();
 			sql.append("select title, addr1, first_image, latitude,longitude\n");
 			sql.append("from attraction_info\n");
-			sql.append("where sido_code = ?\n");
+			sql.append("where sido_code = ? \n");
+			if(!map.get("categoryCode").isEmpty()) {
+				sql.append("and content_type_id = ?\n");
+			}
 			sql.append("limit 100\n");
+			System.out.println(sql);
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, map.get("areaCode"));
+			if(!map.get("categoryCode").isEmpty()) {
+				pstmt.setString(2, map.get("categoryCode"));
+			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MapDto mapDto = new MapDto();
@@ -47,7 +54,6 @@ public class MapDaoImpl implements MapDao{
 				mapDto.setImageUrl(rs.getString("first_image"));
 				mapDto.setLat(rs.getDouble("latitude"));
 				mapDto.setLng(rs.getDouble("longitude"));
-				
 				list.add(mapDto);
 			}
 		} finally {
