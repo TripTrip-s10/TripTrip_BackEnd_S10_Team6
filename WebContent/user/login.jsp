@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" />
 <!-- 메인 페이지 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -13,14 +15,14 @@
     />
 
     <title>Trip!Trip!</title>
-    <link rel="icon" href="../assets/img/title-icon.png" type="image/icon type" />
+    <link rel="icon" href="${root}/assets/img/title-icon.png" type="image/icon type" />
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="${root}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../assets/css/fontawesome.css" />
-    <link rel="stylesheet" href="../assets/css/templatemo-cyborg-gaming.css" />
-    <link rel="stylesheet" href="../assets/css/animate.css" />
+    <link rel="stylesheet" href="${root}/assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="${root}/assets/css/templatemo-cyborg-gaming.css" />
+    <link rel="stylesheet" href="${root}/assets/css/animate.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <!--
 
@@ -48,13 +50,13 @@ https://templatemo.com/tm-579-cyborg-gaming
               <!-- ***** Logo End ***** -->
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="browse.html">Browse</a></li>
-                <li><a href="board.html">Board</a></li>
-                <li><a href="crateArticle.html">Posting</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="browse.jsp">Browse</a></li>
+                <li><a href="board.jsp">Board</a></li>
+                <li><a href="crateArticle.jsp">Posting</a></li>
                 <li id="profile" style="display: none">
-                  <a href="profile.html"
-                    >Profile <img src="../assets/img/profile-header.jpg" alt=""
+                  <a href="profile.jsp"
+                    >Profile <img src="${root}/assets/img/profile.jpg" alt=""
                   /></a>
                 </li>
               </ul>
@@ -89,16 +91,23 @@ https://templatemo.com/tm-579-cyborg-gaming
             <!-- ***** Most Popular Start ***** -->
             <div class="most-popular">
               <div class="row">
-                <form method="post" action="login">
+          <form id="login-form" method="POST" action="">
+            <input type="hidden" name="action" value="login" />
                 <div class="col-12 login-box">
-                    <input type="text" class="form-control" placeholder="아이디" />
+                    <input type="text" id="userid" name="userid" class="form-control" placeholder="아이디" />
                   </div>
                   <div class="col-12 login-box">
-                    <input type="text" class="form-control" placeholder="비밀번호" />
+                    <input type="text" id="userpwd" name="userpwd" class="form-control" placeholder="비밀번호" />
                   </div>
-                    <div class="login-button">
-                        <a href="login.html" id="signIn">시작하기</a>
+                  	<div style="float:right">                    
+                  	<span class="login-button" id="login-button">
+                        <a id="signIn">로그인</a>
+                    </span>
+                    <span class="login-button" id="mvjoin-button">
+                        <a href="join.jsp" id="signUp">회원가입</a>
+                    </span>
                     </div>
+
                 </form>
               </div>
             </div>
@@ -127,8 +136,30 @@ https://templatemo.com/tm-579-cyborg-gaming
     </footer>
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/index.js"></script>
-    <script src="../assets/js/profile.js"></script>
+    <script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${root}/assets/js/profile.js"></script>
+    <script>
+      document.querySelector("#mvjoin-button").addEventListener("click", function () {
+    	location.href = "${root}/user?action=mvjoin";
+      });
+      
+      document.querySelector("#login-button").addEventListener("click", function () {
+        if (!document.querySelector("#userid").value) {
+          alert("아이디 입력!!");
+          return;
+        } else if (!document.querySelector("#userpwd").value) {
+          alert("비밀번호 입력!!");
+          return;
+        } else {
+          let form = document.querySelector("#login-form");
+          form.setAttribute("action", "${root}/user");
+          form.submit();
+        }
+      });
+    </script>
+    <script>
+    var uid = '<%=session.getAttribute("userinfo")%>';
+    
+    </script>
   </body>
 </html>

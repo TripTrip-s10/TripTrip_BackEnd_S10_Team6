@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.triptrip.user.dto.User" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" />
 <!-- 메인 페이지 -->
+<%
+	User user = (User)session.getAttribute("userinfo");
+	
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,7 +19,7 @@
     />
 
     <title>Trip!Trip!</title>
-    <link rel="icon" href="../assets/img/title-icon.png" type="image/icon type" />
+    <link rel="icon" href="assets/img/title-icon.png" type="image/icon type" />
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -29,6 +35,11 @@ TemplateMo 579 Cyborg Gaming
 https://templatemo.com/tm-579-cyborg-gaming
 
 -->
+   <!--  <script>
+    	var uid = '<%= session.getAttribute("userinfo")%>';
+    	console.log(uid);
+    </script>
+     -->
   </head>
 
   <body>
@@ -52,11 +63,13 @@ https://templatemo.com/tm-579-cyborg-gaming
                 <li><a href="browse.jsp">Browse</a></li>
                 <li><a href="board.jsp">Board</a></li>
                 <li><a href="createArticle.jsp">Posting</a></li>
-                <li id="profile" style="display: none">
-                  <a href="profile.jsp"
-                    >Profile <img src="../assets/img/profile-header.jpg" alt=""
+                <% if(user != null){ %>
+                <li id="profile" style="">
+                  <a href="${root}/user/profile.jsp"
+                    >Profile <img src="assets/img/profile.jpg" alt=""
                   /></a>
                 </li>
+                <%} %>
               </ul>
               <a class="menu-trigger">
                 <span>Menu</span>
@@ -80,9 +93,10 @@ https://templatemo.com/tm-579-cyborg-gaming
                   <div class="header-text">
                     <!-- <h6></h6> -->
                     <h4><em>Trip!Trip!</em><br />Let's travel the world</h4>
+                    <% if(user == null){ %>
                     <div class="index-button">
-                      <a data-bs-toggle="modal" data-bs-target="#loginModal" href="#" id="signIn">시작하기</a>
-                    </div>
+                      <a href="user/login.jsp" id="signIn">시작하기</a>
+                    </div><%} %>
                   </div>
                 </div>
               </div>
@@ -100,21 +114,21 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                        <img src="../assets/img/popular-01.jpg" alt="" />
+                        <img src="assets/img/popular-01.jpg" alt="" />
                         <h4>서울나들이 신난당<br /><span>서울</span></h4>
                         </a>
                       </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
-                        <img src="../assets/img/popular-02.jpg" alt="" />
+                        <img src="assets/img/popular-02.jpg" alt="" />
                         <h4>날씨 짱 좋다!!...<br /><span>서울</span></h4>
                       </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                        <img src="../assets/img/popular-01.jpg" alt="" />
+                        <img src="assets/img/popular-01.jpg" alt="" />
                         <h4>서울나들이 신난당<br /><span>서울</span></h4>
                         </a>
                       </div>
@@ -122,7 +136,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?areaCode=1">
-                        <img src="../assets/img/popular-01.jpg" alt="" />
+                        <img src="assets/img/popular-01.jpg" alt="" />
                         <h4>서울나들이 신난당<br /><span>서울</span></h4>
                         </a>
                       </div>
@@ -130,7 +144,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                          <img src="../assets/img/popular-01.jpg" alt="" />
+                          <img src="assets/img/popular-01.jpg" alt="" />
                           <h4>서울나들이 신난당<br /><span>서울</span></h4>
                           </a>
                       </div>
@@ -138,7 +152,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                          <img src="../assets/img/popular-01.jpg" alt="" />
+                          <img src="assets/img/popular-01.jpg" alt="" />
                           <h4>서울나들이 신난당<br /><span>서울</span></h4>
                           </a>
                       </div>
@@ -146,7 +160,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                          <img src="../assets/img/popular-01.jpg" alt="" />
+                          <img src="assets/img/popular-01.jpg" alt="" />
                           <h4>서울나들이 신난당<br /><span>서울</span></h4>
                           </a>
                       </div>
@@ -154,7 +168,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
                         <a href="article.html?articleCode=1">
-                          <img src="../assets/img/popular-01.jpg" alt="" />
+                          <img src="assets/img/popular-01.jpg" alt="" />
                           <h4>서울나들이 신난당<br /><span>서울</span></h4>
                           </a>
                       </div>
@@ -186,81 +200,11 @@ https://templatemo.com/tm-579-cyborg-gaming
         </div>
       </div>
     </footer>
-    <!-- SignIn Modal start -->
-    <div class="modal modal-md fade" id="loginModal">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">로그인</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <form id="form-login" method="POST" action="login">
-          <!-- Modal body -->
-          <div class="modal-body">
-           
-            <div class="input-group">
-              <!-- <span class="input-group-text">Id</span> -->
-              <input type="text" class="form-control" placeholder="Id" id="id" name = "id"/>
-            </div>
-            <div class="input-group mt-2">
-              <!-- <span class="input-group-text">passWord</span> -->
-              <input type="text" class="form-control" placeholder="passWord" id="password" name = "password"/>
-            </div>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="loginBtn">
-              로그인
-            </button>
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">회원가입</button>
-            <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
-          </div>
-		</form>
-        </div>
-      </div>
-    </div>
-    <!-- SignIn Modal end -->
-    <!-- SignUp Modal start -->
-    <div class="modal modal-md fade" id="JoinModal">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">회원가입</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="NickName" id="nickname" name="nickname" />
-            </div>
-            <div class="input-group mt-2">
-              <input type="text" class="form-control" placeholder="Id" id="id" name="id" />
-            </div>
-            <div class="input-group mt-2">
-              <input type="text" class="form-control" placeholder="passWord" id="password" name="password"/>
-              
-            </div>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-              회원가입하기
-            </button>
-            <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- SignUp Modal end -->
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <!--  <script src="assets/js/main.js"></script> -->    
     <script src="assets/js/profile.js"></script>
+
   </body>
 </html>

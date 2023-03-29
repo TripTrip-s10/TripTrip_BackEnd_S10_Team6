@@ -20,5 +20,4 @@ function signIn() {
       document.querySelector("#profile").style.display = "block";
     }
   });
-}
-
+} 
