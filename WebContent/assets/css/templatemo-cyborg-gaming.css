@@ -245,7 +245,7 @@ p {
   overflow: hidden;
 }
 
-.index-button-small a {
+.index-button-small a{
   font-size: 12px;
   color: #fff;
   background-color: rgba(0, 151, 60, 0.8);
@@ -265,6 +265,44 @@ p {
   background-color: #fff;
   color: rgba(0, 151, 60, 0.8);
 }
+
+.login-button a:hover,
+.login-button-small a:hover {
+  background-color: #fff;
+  color: rgba(0, 151, 60, 0.8);
+}
+
+.login-button a {
+  font-size: 14px;
+  color: #fff;
+  background-color: rgba(0, 151, 60, 0.8);
+  padding: 6px 15px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.index-button-small a{
+  font-size: 12px;
+  color: #fff;
+  background-color: rgba(0, 151, 60, 0.8);
+  padding: 12px 18px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+
 /* 
 .main-border-button a {
   font-size: 14px;
@@ -573,7 +611,7 @@ Header Style
   letter-spacing: 0.3px;
 }
 
-.header-area .main-nav .nav li:last-child a {
+.header-area .main-nav .nav #profile a {
   background-color: #f1f1f1;
   padding: 8px 10px 8px 20px;
   border-radius: 23px;
@@ -887,7 +925,6 @@ Banner Style
 */
 
 .main-banner {
-  background-image: url(../images/banner-bg.jpg);
   background-position: center center;
   background-size: cover;
   min-height: 380px;
@@ -911,6 +948,35 @@ Banner Style
 .main-banner h4 em {
   font-style: normal;
   color: rgba(0, 151, 60, 0.5);
+}
+
+.sub-banner {
+  background-position: center center;
+  background-size: cover;
+  border-radius: 23px;
+  /* padding: 80px 40px; */
+}
+
+.sub-banner h6 {
+  font-size: 20px;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 25px;
+}
+
+.sub-banner h4 {
+  font-size: 45px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+
+.sub-banner h4 em {
+  font-style: normal;
+  color: rgba(0, 151, 60, 0.5);
+}
+
+.login-box{
+  margin-bottom: 10px;
 }
 
 /* 
@@ -1427,20 +1493,17 @@ Featured Games Style
 }
 
 .recommended-place .text-button,
-.planned-place .text-button,
-.planTag-content .text-button {
+.planned-place .text-button {
   text-align: center;
 }
 
 .recommended-place .text-button a,
 .recommended-place .text-button a.non-active,
 .planned-place .text-button a,
-.planTag-content .text-button a,
-.planTag-content .text-button a.non-active,
 .main-border-button a,
 .main-button a {
   color: rgba(0, 151, 60, 0.8);
-  background-color: #ffffff;
+  background-color: #f1f1f1;
   padding: 12px;
   border-radius: 23px;
 }
@@ -1448,8 +1511,25 @@ Featured Games Style
 .recommended-place .text-button a:hover,
 .recommended-place .text-button a.active,
 .planned-place .text-button a:hover,
-.planTag-content .text-button a:hover,
-.planTag-content .text-button a.active,
+.main-border-button a:hover,
+.main-button a:hover {
+  background-color: rgba(0, 151, 60, 0.8) !important;
+  color: #ffffff;
+}
+.recommended-place .text-button-add a,
+.recommended-place .text-button-add a.non-active,
+.planned-place .text-button-add a,
+.main-border-button a,
+.main-button a {
+  color: rgba(0, 151, 60, 0.8);
+  background-color: #f1f1f1;
+  padding: 12px;
+  border-radius: 23px;
+}
+
+.recommended-place .text-button-add a:hover,
+.recommended-place .text-button-add a.active,
+.planned-place .text-button-add a:hover,
 .main-border-button a:hover,
 .main-button a:hover {
   background-color: rgba(0, 151, 60, 0.8) !important;

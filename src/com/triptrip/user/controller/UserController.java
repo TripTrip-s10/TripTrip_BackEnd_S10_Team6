@@ -29,7 +29,7 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-
+		System.out.println("plzzz???");
 		String path = "";
 		if ("mvjoin".equals(action)) {
 			path = "/user/join.jsp";
@@ -74,15 +74,17 @@ public class UserController extends HttpServlet {
 	private String login(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userid");
 		String userPwd = request.getParameter("userpwd");
+		System.out.println(userId+userPwd);
 		try {
 			User user = userService.login(userId, userPwd);
 			if (user != null) {
+				System.out.println(user);
 				HttpSession session = request.getSession();
 				session.setAttribute("userinfo", user);
-
+				System.out.println(session.getAttribute("userinfo"));
 				String idsave = request.getParameter("saveid");
 				if ("ok".equals(idsave)) {
-					Cookie cookie = new Cookie("ssafy_id", userId);
+					Cookie cookie = new Cookie("id", userId);
 					cookie.setPath(request.getContextPath());
 					cookie.setMaxAge(60 * 60 * 24 * 365 * 40); // 40년간 저장.
 					response.addCookie(cookie);
