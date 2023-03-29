@@ -195,10 +195,10 @@ https://templatemo.com/tm-579-cyborg-gaming
             <h4 class="modal-title">로그인</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-          <form id="form-login" method="POST" action="">
+          <form id="form-login" method="POST" action="login">
           <!-- Modal body -->
           <div class="modal-body">
-           <input type="hidden" name="action" value="login" />
+           
             <div class="input-group">
               <!-- <span class="input-group-text">Id</span> -->
               <input type="text" class="form-control" placeholder="Id" id="id" name = "id"/>
@@ -219,7 +219,6 @@ https://templatemo.com/tm-579-cyborg-gaming
           </div>
 		</form>
         </div>
-
       </div>
     </div>
     <!-- SignIn Modal end -->
