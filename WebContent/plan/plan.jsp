@@ -40,13 +40,13 @@
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="padding-top: 5px">
+						<a href="${root}/index.jsp" class="logo" style="padding-top: 5px">
 							<h1 style="color: rgba(0, 151, 60, 1); font-size: x-larger">Trip!Trip!</h1>
 						</a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="${root}/index.jsp">Home</a></li>
 							<li><a href="browse.html">Browse</a></li>
 							<li><a href="board.html">Board</a></li>
 							<li style="display: none"><a href="profile.html">Profile
@@ -153,53 +153,51 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9da8d6f85b070cbbce9075ad5616807&libraries=services"></script>
-	<script>
-      var planDict = { 1: { id: "hello" } };
-      var startDate = 0;
-      var endDate = 0;
-      // 시작일 가져오기
-      function getStartDate() {
-        startDate = new Date(document.getElementById("start-date").value);
-        getDateDiff();
-      }
-      // 종료일 가져오기
-      function getEndDate() {
-        endDate = new Date(document.getElementById("end-date").value);
-        getDateDiff();
-      }
-      // 시작일 ~ 종료일 option 만들어주기
-      function getDateDiff() {
-        var dateDiff = endDate.getTime() - startDate.getTime();
-        var dayTotal = dateDiff / (1000 * 60 * 60 * 24);
-        var dayList = document.getElementById("selectDay");
-        // dayList 초기화
-        dayList.innerHTML = "";
-        // dayList 설정
-        for (let day = 1; day <= dayTotal + 1; day++) {
-          var optionEl = document.createElement("option");
-          optionEl.text = "Day " + day;
-          optionEl.value = day;
-          dayList.appendChild(optionEl);
-        }
-      }
 
-      function addPlan() {
-        var selectedDayNum = document.getElementById("selectDay").value;
-        // 아직 해당일자의 값이 없다면
-        if (!planDict.hasOwnProperty(selectedDayNum)) {
-          let item = getPlanItem();
-        }
-      }
-      function getPlanItem() {
-        let title = document.querySelector("#markerInfo").querySelector(".title").innerText;
-        let addr = document.querySelector("#markerInfo").querySelector("#addr").innerText;
-        console.log(title);
-        console.log(addr);
-      }
-    </script>
 	<script>
-      // 최종 배열
-      var result = [];
+	var planDict = { 1: { id: "hello" } };
+    var startDate = 0;
+    var endDate = 0;
+    // 시작일 가져오기
+    function getStartDate() {
+      startDate = new Date(document.getElementById("start-date").value);
+      getDateDiff();
+    }
+    // 종료일 가져오기
+    function getEndDate() {
+      endDate = new Date(document.getElementById("end-date").value);
+      getDateDiff();
+    }
+    // 시작일 ~ 종료일 option 만들어주기
+    function getDateDiff() {
+      var dateDiff = endDate.getTime() - startDate.getTime();
+      var dayTotal = dateDiff / (1000 * 60 * 60 * 24);
+      var dayList = document.getElementById("selectDay");
+      // dayList 초기화
+      dayList.innerHTML = "";
+      // dayList 설정
+      for (let day = 1; day <= dayTotal + 1; day++) {
+        var optionEl = document.createElement("option");
+        optionEl.text = "Day " + day;
+        optionEl.value = day;
+        dayList.appendChild(optionEl);
+      }
+    }
+
+    function addPlan() {
+      var selectedDayNum = document.getElementById("selectDay").value;
+      // 아직 해당일자의 값이 없다면
+      if (!planDict.hasOwnProperty(selectedDayNum)) {
+        let item = getPlanItem();
+      }
+    }
+    function getPlanItem() {
+      let title = document.querySelector("#markerInfo").querySelector(".title").innerText;
+      let addr = document.querySelector("#markerInfo").querySelector("#addr").innerText;
+      console.log(title);
+      console.log(addr);
+    }
+    
       // 마커를 담을 배열입니다
       var markers = [];
 
