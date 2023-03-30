@@ -38,10 +38,13 @@ public class UserController extends HttpServlet {
 			path = join(request, response);
 			redirect(request, response, path);
 		} else if ("login".equals(action)) {
-			System.out.println("plz");
 			path = login(request, response);
 			forward(request, response, path);
+		} else if ("profile-update".equals(action)) {
+			path = updateProfile(request, response);
+			redirect(request, response, path);
 		} else if ("logout".equals(action)) {
+			System.out.println("logout");
 			path = logout(request, response);
 			redirect(request, response, path);
 		} else if ("withdraw".equals(action)) {
@@ -59,9 +62,9 @@ public class UserController extends HttpServlet {
 
 	private String join(HttpServletRequest request, HttpServletResponse response) {
 		User user = new User();
-		user.setName(request.getParameter("name"));
-		user.setAuth_id(request.getParameter("auth_id"));
-		user.setAuth_pw(request.getParameter("auth_pw"));
+		user.setName(request.getParameter("username"));
+		user.setAuth_id(request.getParameter("userid"));
+		user.setAuth_pw(request.getParameter("userpwd"));
 
 		try {
 			userService.join(user);
@@ -74,14 +77,13 @@ public class UserController extends HttpServlet {
 	private String login(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("userid");
 		String userPwd = request.getParameter("userpwd");
-		System.out.println(userId+userPwd);
 		try {
 			User user = userService.login(userId, userPwd);
 			if (user != null) {
 				System.out.println(user);
 				HttpSession session = request.getSession();
 				session.setAttribute("userinfo", user);
-				System.out.println(session.getAttribute("userinfo"));
+
 				String idsave = request.getParameter("saveid");
 				if ("ok".equals(idsave)) {
 					Cookie cookie = new Cookie("id", userId);
@@ -108,6 +110,27 @@ public class UserController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("msg", "로그인 중 에러 발생!!!");
+			return "/error/error.jsp";
+		}
+	}
+
+	private String updateProfile(HttpServletRequest request, HttpServletResponse response) {
+		String userName = request.getParameter("username");
+		String userMsg = request.getParameter("usermsg");
+		int userPk = Integer.parseInt(request.getParameter("userpk"));
+		System.out.println(userName + userMsg);
+		try {
+			userService.modifyInfo(userPk, userName, userMsg);
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userinfo");
+			System.out.println(userName+userMsg);
+			if (userName != "")
+				user.setName(userName);
+			if (userMsg != "")
+				user.setMsg(userMsg);
+			return "/user/profile.jsp";
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return "/error/error.jsp";
 		}
 	}

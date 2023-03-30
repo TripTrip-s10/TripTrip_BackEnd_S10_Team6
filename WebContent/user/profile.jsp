@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.triptrip.user.dto.User" %>
+    pageEncoding="UTF-8" import="com.triptrip.user.dto.User, com.triptrip.user.service.UserService, com.triptrip.user.service.UserServiceImpl" %>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!-- 메인 페이지 -->
 <%
 	User user = (User)session.getAttribute("userinfo");
-	
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +53,9 @@ https://templatemo.com/tm-579-cyborg-gaming
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="${root}/index.jsp" class="active">Home</a></li>
-                <li><a href="browse.jsp">Browse</a></li>
-                <li><a href="board.jsp">Board</a></li>
-                <li><a href="createArticle.jsp">Posting</a></li>
+                <li><a href="${root}/browse.jsp">Browse</a></li>
+                <li><a href="${root}/board/board.jsp">Board</a></li>
+                <li><a href="${root}/board/createArticle.jsp">Posting</a></li>
                 <li id="profile" style="">
                   <a href="${root}/user/profile.jsp"
                     >Profile <img src="${root}/assets/img/profile.jpg" alt=""
@@ -88,18 +88,28 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <div class="col-lg-3 align-self-center">
                       <div class="main-info header-text">
                         <h4>닉네임: <%=user.getName() %></h4>
-                        <p>상태메세지: 일본가고싶다아아아아아아아</p>
+                        <% if(user.getMsg()!=null){ %><p>상태메세지: <%=user.getMsg() %></p><% } %>
                       </div>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-12">
-                      <div class="main-border-button">
+                    <div class="col-lg-12 " >
+                    <form id="auth-form" method="post" action="">
+                    <div style="text-align: center">
+                      <span class="main-border-button">
+                        <a id="withdraw-button">회원탈퇴</a>
+                      </span>
+                      <span class="main-border-button" >
                         <a data-bs-toggle="modal" data-bs-target="#profileModal" href="#"
                           >회원정보 수정</a
                         >
-                      </div>
+                      </span>
+                     	<input type="hidden" name="action" value="logout" />
+	                       <span class="main-border-button" >
+	                        <a id="logout-button">로그아웃</a>
+	                      </span>
                     </div>
+                     </form>
                   </div>
                   <div class="row">
                     <div class="col-lg-12">
@@ -151,7 +161,7 @@ https://templatemo.com/tm-579-cyborg-gaming
         </div>
       </div>
     </div>
-
+	</div>
     <footer>
       <div class="container">
         <div class="row">
@@ -179,27 +189,28 @@ https://templatemo.com/tm-579-cyborg-gaming
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
+<form id="profile-update-form" method="POST" action="">
+<input type="hidden" name="action" value="profile-update" />
           <!-- Modal body -->
           <div class="modal-body">
+            <input type="hidden" name="userpk" value=<%=user.getId() %>  />
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="NickName" id="nickname" />
+              <input type="text" class="form-control" placeholder="닉네임" id="username" name="username"/>
             </div>
             <div class="input-group mt-2">
-              <input type="text" class="form-control" placeholder="Id" id="id" />
-            </div>
-            <div class="input-group mt-2">
-              <input type="text" class="form-control" placeholder="passWord" id="password" />
+              <input type="text" class="form-control" placeholder="상태메세지" id="usermsg" name="usermsg"/>
             </div>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="loginBtn">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="profile-update-button">
               수정완료
             </button>
-            <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
           </div>
+          </form>
         </div>
+        
       </div>
     </div>
     <!-- ProfileEdit Modal end -->
@@ -207,5 +218,23 @@ https://templatemo.com/tm-579-cyborg-gaming
     <!-- Bootstrap core JavaScript -->
     <script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="${root}/assets/js/profile.js"></script>
+    <script>
+    document.querySelector("#logout-button").addEventListener("click", function () {
+            let form = document.querySelector("#auth-form");
+            form.setAttribute("action", "${root}/user");
+            form.submit();
+          });
+      document.querySelector("#profile-update-button").addEventListener("click", function () {
+        if (!document.querySelector("#username").value && !document.querySelector("#usermsg").value) {
+          alert("수정 사항을 입력해주십시오.");
+          return;
+        } else {
+        console.log(document.querySelector("#username").value);
+          let form = document.querySelector("#profile-update-form");
+          form.setAttribute("action", "${root}/user");
+          form.submit();
+        }
+      });
+    </script>
   </body>
 </html>

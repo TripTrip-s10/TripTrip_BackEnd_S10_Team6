@@ -59,31 +59,13 @@ public class UserDaoImpl implements UserDao {
 				user.setName(rs.getString("name"));
 				user.setAuth_id(rs.getString("auth_id"));
 				user.setAuth_pw(rs.getString("auth_pw"));
+				user.setMsg(rs.getString("msg"));
 			}
 
 		} finally {
 			dbUtil.close(pstmt, conn);
 		}
 		return user;
-	}
-
-	@Override
-	public void modifyInfo(User user) throws SQLException {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dbUtil.getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql.append("update user \n").append("set name = ? \n").append("where id = ?");
-			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, user.getName());
-			pstmt.setInt(2, user.getId());
-			pstmt.executeUpdate();
-
-		} finally {
-			dbUtil.close(pstmt, conn);
-		}
 	}
 
 	@Override
@@ -98,8 +80,94 @@ public class UserDaoImpl implements UserDao {
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, user_id);
 			pstmt.executeUpdate();
-		}finally {
+		} finally {
 			dbUtil.close(pstmt, conn);
 		}
 	}
+
+	@Override
+	public void modifyInfo(int userPk, String userName, String userMsg) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("update user \n").append("set name = ?, msg = ? \n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, userName);
+			pstmt.setString(2, userMsg);
+			pstmt.setInt(3, userPk);
+			pstmt.executeUpdate();
+
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+
+	}
+
+	@Override
+	public void modifyName(int userPk, String userName) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("update user \n").append("set name = ?\n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, userName);
+			pstmt.setInt(2, userPk);
+			pstmt.executeUpdate();
+
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+
+	}
+
+	@Override
+	public void modifyMsg(int userPk, String userMsg) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("update user \n").append("set msg = ?\n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, userMsg);
+			pstmt.setInt(2, userPk);
+			pstmt.executeUpdate();
+
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+	}
+
+	@Override
+	public User findById(int userPk) throws SQLException {
+		User user = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("selet * from user \n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, userPk);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				user = new User();
+				user.setName(rs.getString("name"));
+				user.setMsg(rs.getString("msg"));
+			}
+		} finally {
+			dbUtil.close(rs, pstmt, conn);
+		}
+		return user;
+	}
+
 }
