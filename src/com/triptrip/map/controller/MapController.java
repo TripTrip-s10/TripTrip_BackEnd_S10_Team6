@@ -72,7 +72,7 @@ public class MapController extends HttpServlet {
 			map.put("categoryCode",categoryCode);
 			List<MapDto> mapList = mapService.list(map); // 글 목록 
 			request.setAttribute("mapList", mapList);
-			return "/map/list.jsp" + queryString;
+			return "/map/mapList.jsp" + queryString;
 		} catch (Exception e) {
 			return "/error/error.jsp";
 		}
