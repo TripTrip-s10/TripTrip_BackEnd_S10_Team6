@@ -10,3 +10,4 @@ public interface UserService {
 	void withdraw(int user_id)throws SQLException;
 	void modifyInfo(int userPk, String userName, String userMsg) throws SQLException;
 	User findById(int userPk) throws SQLException;
+}
