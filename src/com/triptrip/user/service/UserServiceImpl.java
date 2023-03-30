@@ -30,13 +30,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void modifyInfo(User user) throws SQLException {
-		userDao.modifyInfo(user);
-	}
-
-	@Override
 	public void withdraw(int user_id) throws SQLException {
 		userDao.withdraw(user_id);
 	}
 
+	@Override
+	public void modifyInfo(int userPk, String userName, String userMsg) throws SQLException {
+
+		if (userName != null && userMsg != null)
+			userDao.modifyInfo(userPk, userName, userMsg);
+		else if (userMsg == null)
+			userDao.modifyName(userPk, userName);
+		else if (userName == null)
+			userDao.modifyMsg(userPk, userMsg);
+	}
+
+	@Override
+	public User findById(int userPk) throws SQLException {
+		System.out.println(userPk);
+		return userDao.findById(userPk);
+	}
 }
