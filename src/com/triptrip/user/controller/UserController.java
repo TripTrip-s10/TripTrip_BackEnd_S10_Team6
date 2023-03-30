@@ -123,7 +123,7 @@ public class UserController extends HttpServlet {
 			userService.modifyInfo(userPk, userName, userMsg);
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userinfo");
-			System.out.println(userName+userMsg);
+			System.out.println(userName + userMsg);
 			if (userName != "")
 				user.setName(userName);
 			if (userMsg != "")
@@ -142,10 +142,18 @@ public class UserController extends HttpServlet {
 	}
 
 	private String withdraw(HttpServletRequest request, HttpServletResponse response) {
-		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		String userId = request.getParameter("userid");
+		String userPwd = request.getParameter("userpwd");
 		try {
-			userService.withdraw(user_id);
-			return "/index.jsp";
+			User loginUser = userService.login(userId, userPwd);
+			HttpSession session = request.getSession();
+			User sessionUser = (User) session.getAttribute("userinfo");
+			if (loginUser.getId() == sessionUser.getId()) {
+				userService.withdraw(loginUser.getId());
+				return "/index.jsp";
+			}else {
+				return "/user/withdraw.jsp";
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "/error/error.jsp";
