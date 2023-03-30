@@ -269,13 +269,16 @@ p {
 .login-button a:hover,
 .login-button-small a:hover,
 .join-button a:hover,
-.join-button-small a:hover {
+.join-button-small a:hover,
+.withdraw-button a:hover,
+.withdraw-button-small a:hover {
   background-color: #fff;
   color: rgba(0, 151, 60, 0.8);
 }
 
 .login-button a,
-.join-button a {
+.join-button a,
+.withdraw-button a {
   font-size: 14px;
   color: #fff;
   background-color: rgba(0, 151, 60, 0.8);
