@@ -182,7 +182,7 @@
 									</ul>
 								</div>
 								<div class="text-button" id="plan-button">
-									<a href="plan.jsp">일정 만들기</a>
+									<a href="${root}/plan/plan.jsp">일정 만들기</a>
 								</div>
 							</div>
 						</div>
