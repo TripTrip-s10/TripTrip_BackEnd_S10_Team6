@@ -154,6 +154,7 @@ public class UserController extends HttpServlet {
 			}else {
 				return "/user/withdraw.jsp";
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "/error/error.jsp";
