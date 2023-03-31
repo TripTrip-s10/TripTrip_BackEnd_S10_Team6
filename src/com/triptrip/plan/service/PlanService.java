@@ -1,5 +1,9 @@
 package com.triptrip.plan.service;
 
-public interface PlanService {
+import java.util.List;
 
+import com.triptrip.map.dto.MapDto;
+
+public interface PlanService {
+	List<MapDto> keywordList(String keyword) throws Exception;
 }

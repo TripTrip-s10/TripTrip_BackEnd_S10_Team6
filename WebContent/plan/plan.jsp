@@ -71,7 +71,7 @@
 					<div class="row">
 						<div>
 							<form class="row g-3 form-inline" id="plan-form" role="form"
-								method="POST" action="#">
+								method="POST" action="">
 								<div class="col-md-12">
 									<span>제목</span> <input type="text" class="form-control"
 										id="title" />
@@ -94,14 +94,11 @@
 								<div id="menu-wrap">
 									<div class="option" style="text-align: center">
 										<div>
-											<form onclick="searchPlaces(); return false">
-												<input type="text" id="keyword" />
-												<button type="submit">검색</button>
-											</form>
+											<input type="text" id="keyword" name="keyword" />
+											<button id="btn-search">검색</button>
 										</div>
 										<hr />
 										<ul id="placesList"></ul>
-										<div id="pagination"></div>
 									</div>
 								</div>
 							</div>
@@ -114,10 +111,10 @@
 										aria-label="Default select example"></select>
 								</div>
 								<ul style="overflow: auto; height: 518px">
-									<li><img src="${root}/assets/img/game-01.jpg" alt=""
+									<li><img src="${root}/assets/img/popular_01.jpg" alt=""
 										class="templatemo-item" />
-										<h4>Fortnite</h4>
-										<h6>Sandbox</h6></li>
+										<h4>제주도</h4>
+										<h6>어쩌구저쩌구</h6></li>
 								</ul>
 								<div class="text-button" id="create-button">
 									<a href="profile.html">Finish!</a>
@@ -131,24 +128,9 @@
 		</div>
 	</div>
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<p>
-						Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights
-						reserved. <br />Design: <a href="https://templatemo.com"
-							target="_blank" title="free CSS templates">TemplateMo</a>
-						Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
-
 	<!-- Scripts -->
 	<!-- Bootstrap core JavaScript -->
-	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"
@@ -216,114 +198,75 @@
       // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
       var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-      // 키워드로 장소를 검색합니다
-      searchPlaces();
-
       // 키워드 검색을 요청하는 함수입니다
-      function searchPlaces() {
+       document.querySelector("#btn-search").addEventListener("click", function () {
         var keyword = document.getElementById("keyword").value;
-
+        console.log(keyword);
         if (!keyword.replace(/^\s+|\s+$/g, "")) {
           // alert("키워드를 입력해주세요!");
           return false;
         }
+        var keywordUrl = encodeURI("${root}/plan?action=keywordList&keyword=" + keyword);
+        console.log(keywordUrl);
+       	fetch(keywordUrl)
+         .then(response => response.json())
+         .then(data => placeList(data)); 
+      });
 
-        // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-        // ps.keywordSearch(keyword, placesSearchCB);
-      }
+       function placeList(places) {
+    	   console.log(places);
+     	 var listEl = document.getElementById("placesList");
+         var menuEl = document.getElementById("menu-wrap");
+         var fragment = document.createDocumentFragment();
+         var bounds = new kakao.maps.LatLngBounds();
+         var listStr = "";
+		
+         // 검색 결과 목록에 추가된 항목들을 제거합니다
+         removeAllChildNods(listEl);
 
-      // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-      function placesSearchCB(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-          // 정상적으로 검색이 완료됐으면
-          // 검색 목록과 마커를 표출합니다
-          displayPlaces(data);
+         for (var i = 0; i < places.length; i++) {
+           // 마커를 생성하고 지도에 표시합니다
+           var placePosition = new kakao.maps.LatLng(places[i]["lat"], places[i]["lng"]);
+           // var marker = addMarker(placePosition, i);
+           var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+           // LatLngBounds 객체에 좌표를 추가합니다
+           bounds.extend(placePosition);
+           fragment.appendChild(itemEl);
+         }
 
-          // 페이지 번호를 표출합니다
-          displayPagination(pagination);
-        } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-          // alert("검색 결과가 존재하지 않습니다.");
-          return;
-        } else if (status === kakao.maps.services.Status.ERROR) {
-          // alert("검색 결과 중 오류가 발생했습니다.");
-          return;
-        }
-      }
-
-      // 검색 결과 목록과 마커를 표출하는 함수입니다
-      function displayPlaces(places) {
-        var listEl = document.getElementById("placesList");
-        var menuEl = document.getElementById("menu-wrap");
-        var fragment = document.createDocumentFragment();
-        var bounds = new kakao.maps.LatLngBounds();
-        var listStr = "";
-
-        // 검색 결과 목록에 추가된 항목들을 제거합니다
-        removeAllChildNods(listEl);
-
-        for (var i = 0; i < places.length; i++) {
-          // 마커를 생성하고 지도에 표시합니다
-          var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-          var marker = addMarker(placePosition, i);
-          var itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-          (function (marker, item) {
-            itemEl.onclick = function () {
-              removeMarker();
-              markers = [];
-              marker.setMap(map);
-              mapCenterChange(marker);
-              markerInfoDisplay(marker, item);
-              markers.push(marker);
-            };
-          })(marker, places[i]);
-
-          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-          // LatLngBounds 객체에 좌표를 추가합니다
-          bounds.extend(placePosition);
-          fragment.appendChild(itemEl);
-        }
-
-        // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-        listEl.appendChild(fragment);
-        menuEl.scrollTop = 0;
-        // map.setBounds(bounds);
-        map.setCenter(bounds[0].getPosition());
-        map.setLevel(2);
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-      }
-
+         // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+         listEl.appendChild(fragment);
+         menuEl.scrollTop = 0;
+         //map.setCenter(bounds[0].getPosition());
+         map.setLevel(2);
+         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+       }
+       // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+       function removeAllChildNods(el) {
+         while (el.hasChildNodes()) {
+           el.removeChild(el.lastChild);
+         }
+       }
+    
       // 검색결과 항목을 Element로 반환하는 함수입니다
-      function getListItem(index, places) {
+      function getListItem(idx, place) {
         var el = document.createElement("li");
         var itemStr =
           '<span class="markerbg marker_' +
-          (index + 1) +
-          '"></span>' +
+          (idx + 1) +
+          '></span>' +
           '<div class="info">' +
-          "   <h5 class='place-name'>" +
-          places.place_name +
-          "</h5>";
-
-        if (places.road_address_name) {
-          itemStr +=
-            "    <span>" +
-            places.road_address_name +
-            "</span>" +
-            '   <span class="jibun gray">' +
-            places.address_name +
-            "</span>";
-        } else {
-          itemStr += "    <span>" + places.address_name + "</span>";
-        }
-
-        itemStr += '  <span class="tel">' + places.phone + "</span>" + "</div>";
+          '<a class="place-name" data-no=' + place["contentId"] + '>' +
+          '<h4>' + place["title"] + '</h4></a>'  +
+          '<span>' + place["addr"] + '</span>'
+          ;
 
         el.innerHTML = itemStr;
         el.className = "item";
-
         return el;
       }
 
+     
       // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
       function addMarker(position, idx, title) {
         var imageSrc =
@@ -350,36 +293,6 @@
           markers[i].setMap(null);
         }
         markers = [];
-      }
-
-      // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-      function displayPagination(pagination) {
-        var paginationEl = document.getElementById("pagination");
-        var fragment = document.createDocumentFragment();
-        var i;
-
-        // 기존에 추가된 페이지번호를 삭제합니다
-        while (paginationEl.hasChildNodes()) {
-          paginationEl.removeChild(paginationEl.lastChild);
-        }
-
-        for (i = 1; i <= pagination.last; i++) {
-          var el = document.createElement("a");
-          el.href = "#";
-          el.innerHTML = i;
-
-          if (i === pagination.current) {
-            el.className = "on";
-          } else {
-            el.onclick = (function (i) {
-              return function () {
-                pagination.gotoPage(i);
-              };
-            })(i);
-          }
-          fragment.appendChild(el);
-        }
-        paginationEl.appendChild(fragment);
       }
 
       function mapCenterChange(marker) {
@@ -427,12 +340,7 @@
         overlay.setMap(null);
       }
 
-      // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-      function removeAllChildNods(el) {
-        while (el.hasChildNodes()) {
-          el.removeChild(el.lastChild);
-        }
-      }
+     
     </script>
 </body>
 </html>

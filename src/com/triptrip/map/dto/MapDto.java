@@ -1,11 +1,19 @@
 package com.triptrip.map.dto;
 
 public class MapDto {
+	private String contentId;
 	private String title;
 	private String addr;
 	private String imageUrl;
 	private double lat;
 	private double lng;
+	
+	public String getContentId() {
+		return contentId;
+	}
+	public void setContentId(String contentId) {
+		this.contentId = contentId;
+	}
 	public String getTitle() {
 		return title;
 	}

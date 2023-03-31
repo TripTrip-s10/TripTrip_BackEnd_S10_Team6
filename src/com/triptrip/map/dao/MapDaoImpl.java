@@ -12,7 +12,7 @@ import com.triptrip.map.dto.MapDto;
 import com.triptrip.util.DBUtil;
 
 public class MapDaoImpl implements MapDao{
-	private static MapDao MapDao;
+	private static MapDao mapDao;
 	private DBUtil dbUtil;
 	
 	private MapDaoImpl() {
@@ -20,9 +20,9 @@ public class MapDaoImpl implements MapDao{
 	}
 
 	public static MapDao getMapDao() {
-		if(MapDao == null)
-			MapDao = new MapDaoImpl();
-		return MapDao;
+		if(mapDao == null)
+			mapDao = new MapDaoImpl();
+		return mapDao;
 	}
 	
 	public List<MapDto> list(Map<String,String> map) throws SQLException{

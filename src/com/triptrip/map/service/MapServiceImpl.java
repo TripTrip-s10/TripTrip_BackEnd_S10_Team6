@@ -11,20 +11,20 @@ import java.util.Map;
 import com.triptrip.map.dao.MapDao;
 
 public class MapServiceImpl implements MapService {
-	private static MapService MapService = new MapServiceImpl();
-	private MapDao MapDao;
+	private static MapService mapService = new MapServiceImpl();
+	private MapDao mapDao;
 	
 	private MapServiceImpl() {
-		MapDao = MapDaoImpl.getMapDao();
+		mapDao = MapDaoImpl.getMapDao();
 	}
 
 	public static MapService getMapService() {
-		return MapService;
+		return mapService;
 	}
 
 	@Override
 	public List<MapDto> list(Map<String, String> map) throws Exception{
-		return MapDao.list(map);
+		return mapDao.list(map);
 	}
 
 }
