@@ -25,8 +25,7 @@
 	rel="stylesheet" />
 <!-- Additional CSS Files -->
 <link rel="stylesheet" href="${root}/assets/css/fontawesome.css" />
-<link rel="stylesheet"
-	href="${root}/assets/css/templatemo-cyborg-gaming.css" />
+<link rel="stylesheet" href="${root}/assets/css/template.css" />
 <link rel="stylesheet" href="${root}/assets/css/animate.css" />
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
@@ -163,25 +162,29 @@
     }
 	
     function viewDay(){
-    	console.log(planDict);
     	let dayListEl = document.querySelector(".day-list");
         removeAllChildNods(dayListEl);
     	let selectedDayNum = document.getElementById("selectDay").value;
-    	console.log(selectedDayNum);
         var idx = 0;
         if(planDict.hasOwnProperty(selectedDayNum)){
-	        for(let i = 0; i < planDict[selectedDayNum].length; i++){
+	        for(var i in planDict[selectedDayNum]){
 	        	 var el = document.createElement("li");
-	       	  	let item = ' <img src=' + (planDict[selectedDayNum][i]["imageUrl"]===''?"${root}/assets/img/nophoto.png": planDict[selectedDayNum][i]["imageUrl"]) + ' alt="" class="templatemo-item" />'+
-	       					'<h4>' + planDict[selectedDayNum][i]["title"] + '</h4>' + 
-	       					'<h6>'+ planDict[selectedDayNum][i]["addr"]+ '</h6>';
-	       			el.innerHTML = item;
-	       			el.className = "day-plan";
-	       		  dayListEl.appendChild(el);
+	       	  	let item = '<div class="row">'+
+					'<div class="col-sm-4 col-md-3 col-xl-4">'+
+					' <img src=' + (planDict[selectedDayNum][i]["imageUrl"]===''?"${root}/assets/img/nophoto.png": planDict[selectedDayNum][i]["imageUrl"]) + ' alt="" class="templatemo-item" /></div>'+
+			'<div class="col-sm-5 col-md-7 col-xl-6">'+
+			'<h4>' + planDict[selectedDayNum][i]["title"] + '</h4>' + 
+				'<h6>'+ planDict[selectedDayNum][i]["addr"]+ '</h6></div> ' + 
+			'<div class="col-sm-3 col-md-2 col-xl-2 "style="padding: 0px 15px 0px 0px;">'+
+				'<button type="button" class="btn-close btn-place-close" onclick="removePlan(' + selectedDayNum +','  + i + ')" aria-label="Close"></button>'+
+			'</div></div>';
+	       	  	el.innerHTML = item;
+	       		el.className = "day-plan";
+	       		dayListEl.appendChild(el);
 	        }
         }
     }
-    
+    // 일정 추가 
     function addPlan(idx) {
       var selectedDayNum = document.getElementById("selectDay").value;
       // 아직 해당일자의 값이 없다면
@@ -190,18 +193,14 @@
       }
 	  let dict = {'contentId':places[idx]["contentId"], 'title': places[idx]["title"], 'addr': places[idx]["addr"], 'imageUrl': places[idx]["imageUrl"], 'order': planDict[selectedDayNum].length+1};
 	  planDict[selectedDayNum].push(dict);
-	  console.log(planDict);
-	  let dayListEl = document.querySelector(".day-list");
-	  console.log(dayListEl);
-	  var el = document.createElement("li");
-	  let item = '<img src=' + (places[idx]["imageUrl"]===''?"${root}/assets/img/nophoto.png": places[idx]["imageUrl"]) + ' alt = "" class="templatemo-item" />'+
-					'<h4>' + places[idx]["title"] + '</h4>' + 
-					'<h6>'+ places[idx]["addr"]+ '</h6>';
-			el.innerHTML = item;
-			el.className = "day-plan";
-		  dayListEl.appendChild(el);
+	 viewDay();
 	   }
-   	
+    // 일정 삭제 
+   	function removePlan(day,idx){
+   		delete planDict[day][idx];
+   		viewDay();
+   		
+   	}
       // 마커를 담을 배열입니다
       var markers = [];
 
@@ -220,13 +219,11 @@
       // 키워드 검색을 요청하는 함수입니다
        document.querySelector("#btn-search").addEventListener("click", function () {
         var keyword = document.getElementById("keyword").value;
-        console.log(keyword);
         if (!keyword.replace(/^\s+|\s+$/g, "")) {
           // alert("키워드를 입력해주세요!");
           return false;
         }
         var keywordUrl = encodeURI("${root}/plan?action=keywordList&keyword=" + keyword);
-        console.log(keywordUrl);
        	fetch(keywordUrl)
          .then(response => response.json())
          .then(data => placeList(data)); 
@@ -235,7 +232,6 @@
       var places; // 장소 검색 결과를 저장하기 위한 배열
        function placeList(data) {
     	   places = data; // 전달받은 장소 검색 결과 복사 
-    	   console.log(places);
      	 var listEl = document.getElementById("placesList");
          var menuEl = document.getElementById("menu-wrap");
          var fragment = document.createDocumentFragment();
@@ -289,7 +285,6 @@
       // 마커를 생성하고 지도 위에 마커를 표시하는 함수
       function addMarker(idx){
     	  removeMarker();
-    	  console.log(idx);
           var marker = new kakao.maps.Marker({
               position: new kakao.maps.LatLng(places[idx]["lat"], places[idx]["lng"]),
               clickable: true,
