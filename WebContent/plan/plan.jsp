@@ -191,8 +191,9 @@
       if (!planDict.hasOwnProperty(selectedDayNum)) {
     	  planDict[selectedDayNum] = [];
       }
-	  let dict = {'contentId':places[idx]["contentId"], 'title': places[idx]["title"], 'addr': places[idx]["addr"], 'imageUrl': places[idx]["imageUrl"], 'order': planDict[selectedDayNum].length+1};
+	  let dict = {'contentId':places[idx]["contentId"], 'title': places[idx]["title"], 'addr': places[idx]["addr"], 'imageUrl': places[idx]["imageUrl"], 'lat': places[idx]["lat"],'lng':places[idx]["lng"],'order': planDict[selectedDayNum].length+1};
 	  planDict[selectedDayNum].push(dict);
+	 console.log(planDict);
 	 viewDay();
 	   }
     // 일정 삭제 
