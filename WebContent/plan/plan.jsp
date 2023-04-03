@@ -108,13 +108,9 @@
 							<div class="planned-place">
 								<div class="heading-section">
 									<select class="form-select" id="selectDay"
-										aria-label="Default select example"></select>
+										aria-label="Default select example" onchange="viewDay()"></select>
 								</div>
-								<ul style="overflow: auto; height: 518px">
-									<li><img src="${root}/assets/img/popular_01.jpg" alt=""
-										class="templatemo-item" />
-										<h4>제주도</h4>
-										<h6>어쩌구저쩌구</h6></li>
+								<ul class="day-list" style="overflow: auto; height: 518px">
 								</ul>
 								<div class="text-button" id="create-button">
 									<a href="profile.html">Finish!</a>
@@ -137,9 +133,9 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9da8d6f85b070cbbce9075ad5616807&libraries=services"></script>
 
 	<script>
-	var planDict = { 1: { id: "hello" } };
-    var startDate = 0;
-    var endDate = 0;
+	var planDict = {};
+    var startDate = new Date();
+    var endDate = new Date();
     // 시작일 가져오기
     function getStartDate() {
       startDate = new Date(document.getElementById("start-date").value);
@@ -165,21 +161,55 @@
         dayList.appendChild(optionEl);
       }
     }
-
-    function addPlan() {
+	
+    function viewDay(){
+    	console.log(planDict);
+    	let dayListEl = document.querySelector(".day-list");
+        removeAllChildNods(dayListEl);
+    	let selectedDayNum = document.getElementById("selectDay").value;
+    	console.log(selectedDayNum);
+        var idx = 0;
+        if(planDict.hasOwnProperty(selectedDayNum)){
+	        for(let i = 0; i < planDict[selectedDayNum].length; i++){
+	        	for(j = 0; j < places.length; j++){
+	        		if(places[j]["contentId"] === planDict[selectedDayNum][i]["contentId"]){
+	        			idx = j;
+	        			break;
+	        		}
+	        	}
+	        	console.log(idx);
+	        	dayListEl.appendChild(getDayItem(idx));
+	        }
+        }
+    }
+    
+    function addPlan(idx) {
       var selectedDayNum = document.getElementById("selectDay").value;
       // 아직 해당일자의 값이 없다면
       if (!planDict.hasOwnProperty(selectedDayNum)) {
-        let item = getPlanItem();
+    	  planDict[selectedDayNum] = [];
       }
-    }
-    function getPlanItem() {
-      let title = document.querySelector("#markerInfo").querySelector(".title").innerText;
-      let addr = document.querySelector("#markerInfo").querySelector("#addr").innerText;
-      console.log(title);
-      console.log(addr);
+	  let dict = {'contentId':places[idx]["contentId"], 'order': planDict[selectedDayNum].length+1};
+	  planDict[selectedDayNum].push(dict);
+	  console.log(planDict);
+	  let dayListEl = document.querySelector(".day-list");
+	  console.log(dayListEl);
+	  dayListEl.appendChild(getDayItem(idx));
     }
     
+    function getDayItem(idx){
+    	var el = document.createElement("li");
+    	let item = 
+    	'<img src=' + places[idx]["imageUrl"] + ' alt="" '+ 
+			'class="templatemo-item" />'+
+				'<h4>' + places[idx]["title"] + '</h4>' + 
+				'<h6>'+ places[idx]["addr"]+ '</h6>';
+		el.innerHTML = item;
+		el.className = "day-plan";
+		console.log(el);
+		return el;
+    }
+   	
       // 마커를 담을 배열입니다
       var markers = [];
 
@@ -191,9 +221,6 @@
 
       // 지도를 생성합니다
       var map = new kakao.maps.Map(mapContainer, mapOption);
-
-      // // 장소 검색 객체를 생성합니다
-      // var ps = new kakao.maps.services.Places();
 
       // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
       var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
@@ -212,8 +239,10 @@
          .then(response => response.json())
          .then(data => placeList(data)); 
       });
-
-       function placeList(places) {
+      
+      var places; // 장소 검색 결과를 저장하기 위한 배열
+       function placeList(data) {
+    	   places = data; // 전달받은 장소 검색 결과 복사 
     	   console.log(places);
      	 var listEl = document.getElementById("placesList");
          var menuEl = document.getElementById("menu-wrap");
@@ -252,39 +281,31 @@
       function getListItem(idx, place) {
         var el = document.createElement("li");
         var itemStr =
+          '<div class="info"  onclick = "addMarker(' + idx + ')">' +
           '<span class="markerbg marker_' +
           (idx + 1) +
-          '></span>' +
-          '<div class="info">' +
+          '></span>'+
           '<a class="place-name" data-no=' + place["contentId"] + '>' +
-          '<h4>' + place["title"] + '</h4></a>'  +
+          '<h4 style="margin:0px">' + place["title"] + '</h4></a>'  +
           '<span>' + place["addr"] + '</span>'
           ;
-
         el.innerHTML = itemStr;
         el.className = "item";
         return el;
       }
-
-     
-      // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-      function addMarker(position, idx, title) {
-        var imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png"; // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        var imageSize = new kakao.maps.Size(36, 37); // 마커 이미지의 크기
-        var imgOptions = {
-          spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-          spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-          offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        };
-
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
-        var marker = new kakao.maps.Marker({
-          position: position, // 마커의 위치
-          image: markerImage,
-          clickable: true,
-        });
-        return marker;
+	
+      // 마커를 생성하고 지도 위에 마커를 표시하는 함수
+      function addMarker(idx){
+    	  removeMarker();
+    	  console.log(idx);
+          var marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(places[idx]["lat"], places[idx]["lng"]),
+              clickable: true,
+            });
+            marker.setMap(map);
+      		markers.push(marker);
+			mapCenterChange(marker);
+			markerInfoDisplay(marker,idx)
       }
 
       // 지도 위에 표시되고 있는 마커를 모두 제거합니다
@@ -294,34 +315,34 @@
         }
         markers = [];
       }
-
+      
+	 // 마커 위치로 지도 이동시키기 
       function mapCenterChange(marker) {
         map.setCenter(marker.getPosition());
         map.setLevel(2);
       }
+	 
       var overlay = "";
-      function markerInfoDisplay(marker, item) {
+      function markerInfoDisplay(marker,idx) {
         if (overlay) {
           closeOverlay();
         }
-        var content = `<div class="wrap">
-          <div class="info" id ="markerInfo">
-              <div class="title">
-                ${item.place_name}
-              <div class="close" onclick="closeOverlay()" title="닫기"></div>
-              </div>
-              <div class="body">
-              <div class="img">
-                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">
-              </div>
-              <div class="desc">
-                <div class="ellipsis" id="addr">${item.road_address_name}</div>
-                    <div class="jibun ellipsis">${item.phone}</div>
-                    <a class="add-plan" onclick="addPlan()">일정 추가</a>
-                  </div>
-              </div>
-        </div>
-      </div>`;
+        var content = '<div class="wrap">' + 
+          '<div class="info" id ="markerInfo" >' + 
+          '<div class="title"> '+ places[idx]["title"] + 
+         ' <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+         ' </div>' + 
+         '<div class="body">' +
+        ' <div class="img">' +
+         '  <img src=' + places[idx]["imageUrl"] + ' style="width:73px; height:70px;">' +
+        ' </div> ' +
+        '<div class="desc">' + 
+        '<div class="ellipsis" id="addr">' +places[idx]["addr"] + '</div>' +
+          '  <a class="add-plan" onclick="addPlan(' + idx + ')">일정 추가</a>' +
+          '</div>' +
+          '</div>' +
+       	'</div>' +
+     ' </div>';
 
         overlay = new kakao.maps.CustomOverlay({
           content: content,
@@ -344,4 +365,3 @@
     </script>
 </body>
 </html>
-s
