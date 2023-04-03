@@ -171,14 +171,13 @@
         var idx = 0;
         if(planDict.hasOwnProperty(selectedDayNum)){
 	        for(let i = 0; i < planDict[selectedDayNum].length; i++){
-	        	for(j = 0; j < places.length; j++){
-	        		if(places[j]["contentId"] === planDict[selectedDayNum][i]["contentId"]){
-	        			idx = j;
-	        			break;
-	        		}
-	        	}
-	        	console.log(idx);
-	        	dayListEl.appendChild(getDayItem(idx));
+	        	 var el = document.createElement("li");
+	       	  	let item = ' <img src=' + (planDict[selectedDayNum][i]["imageUrl"]===''?"${root}/assets/img/nophoto.png": planDict[selectedDayNum][i]["imageUrl"]) + ' alt="" class="templatemo-item" />'+
+	       					'<h4>' + planDict[selectedDayNum][i]["title"] + '</h4>' + 
+	       					'<h6>'+ planDict[selectedDayNum][i]["addr"]+ '</h6>';
+	       			el.innerHTML = item;
+	       			el.className = "day-plan";
+	       		  dayListEl.appendChild(el);
 	        }
         }
     }
@@ -189,26 +188,19 @@
       if (!planDict.hasOwnProperty(selectedDayNum)) {
     	  planDict[selectedDayNum] = [];
       }
-	  let dict = {'contentId':places[idx]["contentId"], 'order': planDict[selectedDayNum].length+1};
+	  let dict = {'contentId':places[idx]["contentId"], 'title': places[idx]["title"], 'addr': places[idx]["addr"], 'imageUrl': places[idx]["imageUrl"], 'order': planDict[selectedDayNum].length+1};
 	  planDict[selectedDayNum].push(dict);
 	  console.log(planDict);
 	  let dayListEl = document.querySelector(".day-list");
 	  console.log(dayListEl);
-	  dayListEl.appendChild(getDayItem(idx));
-    }
-    
-    function getDayItem(idx){
-    	var el = document.createElement("li");
-    	let item = 
-    	'<img src=' + places[idx]["imageUrl"] + ' alt="" '+ 
-			'class="templatemo-item" />'+
-				'<h4>' + places[idx]["title"] + '</h4>' + 
-				'<h6>'+ places[idx]["addr"]+ '</h6>';
-		el.innerHTML = item;
-		el.className = "day-plan";
-		console.log(el);
-		return el;
-    }
+	  var el = document.createElement("li");
+	  let item = '<img src=' + (places[idx]["imageUrl"]===''?"${root}/assets/img/nophoto.png": places[idx]["imageUrl"]) + ' alt = "" class="templatemo-item" />'+
+					'<h4>' + places[idx]["title"] + '</h4>' + 
+					'<h6>'+ places[idx]["addr"]+ '</h6>';
+			el.innerHTML = item;
+			el.className = "day-plan";
+		  dayListEl.appendChild(el);
+	   }
    	
       // 마커를 담을 배열입니다
       var markers = [];
@@ -334,7 +326,7 @@
          ' </div>' + 
          '<div class="body">' +
         ' <div class="img">' +
-         '  <img src=' + places[idx]["imageUrl"] + ' style="width:73px; height:70px;">' +
+         '  <img src=' + (places[idx]["imageUrl"]===''?"${root}/assets/img/nophoto.png": places[idx]["imageUrl"]) + ' style="width:73px; height:70px;">' +
         ' </div> ' +
         '<div class="desc">' + 
         '<div class="ellipsis" id="addr">' +places[idx]["addr"] + '</div>' +
