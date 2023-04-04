@@ -5,62 +5,13 @@
 <!-- 추천 지역 페이지 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-	rel="stylesheet" />
-
-<title>Trip!Trip!</title>
-<link rel="icon" href="../assets/img/title-icon.png"
-	type="image/icon type" />
-
-<link href="${root}/assets/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" />
-
-<!-- Additional CSS Files -->
-<link rel="stylesheet" href="${root}/assets/css/fontawesome.css" />
-<link rel="stylesheet" href="${root}/assets/css/template.css" />
-<link rel="stylesheet" href="${root}/assets/css/animate.css" />
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-</head>
-
+<!-- head start -->
+<%@ include file="/common/head.jsp" %>
+<!-- head end -->
 <body>
-	<!-- ***** Header Area Start ***** -->
-	<header class="header-area header-sticky">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<nav class="main-nav">
-						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="padding-top: 5px">
-							<h1 style="color: rgba(0, 151, 60, 1); font-size: x-larger">Trip!Trip!</h1>
-						</a>
-						<!-- ***** Logo End ***** -->
-						<!-- ***** Menu Start ***** -->
-						<ul class="nav">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="browse.html">Browse</a></li>
-							<li><a href="board.html">Board</a></li>
-							<li><a href="createArticle.html">Posting</a></li>
-							<li id="profile" style="display: none"><a
-								href="profile.html">Profile <img
-									src="../assets/img/profile.jpg" alt="" /></a></li>
-						</ul>
-						<a class="menu-trigger"> <span>Menu</span>
-						</a>
-						<!-- ***** Menu End ***** -->
-					</nav>
-				</div>
-			</div>
-		</div>
-	</header>
-	<!-- ***** Header Area End ***** -->
-
+	<!-- nav bar start -->
+	<%@ include file="/common/nav.jsp" %>
+	<!-- nav bar end -->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
