@@ -6,11 +6,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- head start -->
-<%@ include file="/common/head.jsp" %>
+<%@ include file="/common/head.jsp"%>
 <!-- head end -->
+<style>
+.radius_border {
+	border: 0.5px solid #666;
+	border-radius: 5px;
+}
+
+.custom_typecontrol {
+	position: absolute;
+	top: 50px;
+	right: 50px;
+	overflow: hidden;
+	height: 30px;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	font-size: 15px;
+}
+
+.custom_typecontrol span {
+	display: block;
+	width: 65px;
+	height: 30px;
+	float: left;
+	text-align: center;
+	line-height: 30px;
+	cursor: pointer;
+}
+
+.custom_typecontrol .btn {
+	background: rgb(255, 0, 0);
+}
+
+.custom_typecontrol .btn:hover {
+	background: #f5f5f5;
+}
+
+.custom_typecontrol .btn:active {
+	background: #e6e6e6;
+}
+
+.custom_typecontrol .selected_btn {
+	color: rgb(0, 151, 60);
+	background: #fff;
+}
+
+.custom_typecontrol .selected_btn:hover {
+	color: #fff;
+	background-color: rgb(0, 151, 60);
+}
+
+.customOverlay {
+	position: relative;
+	bottom: 15px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	border-bottom: 2px solid #ddd;
+	float: left;
+}
+
+.customOverlay a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+	text-align: center;
+	border-radius: 6px;
+	padding-top: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	overflow: hidden;
+	background: #00973c;
+}
+
+.customOverlay .title {
+	display: block;
+	text-align: center;
+	background: #fff;
+	padding: 10px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.customOverlay:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: -12px;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+</style>
+</style>
 <body>
 	<!-- nav bar start -->
-	<%@ include file="/common/nav.jsp" %>
+	<%@ include file="/common/nav.jsp"%>
 	<!-- nav bar end -->
 	<div class="container">
 		<div class="row">
@@ -37,9 +131,13 @@
 						</div>
 						<div class="col-lg-8" style="margin-top: 20px">
 							<div class="featured-games header-text"
-								style="position: relative">
+								style="position: relative; overflow: hidden;">
 								<div id="map"
-									style="width: 100%; height: 616px; position: relative; overflow: hidden"></div>
+									style="width: 100%; height: 616px; position: relative; overflow: hidden">
+								</div>
+								<div class="custom_typecontrol radius_border">
+									<span id="btnRoute" class="selected_btn" onclick="setRoute()">경로확인</span>
+								</div>
 								<div id="menu-wrap">
 									<div class="option" style="text-align: center">
 										<div>
@@ -50,6 +148,7 @@
 										<ul id="placesList"></ul>
 									</div>
 								</div>
+
 							</div>
 						</div>
 
@@ -62,7 +161,7 @@
 								<ul class="day-list" style="overflow: auto; height: 518px">
 								</ul>
 								<div class="text-button" id="create-button">
-									<a href="profile.html">Finish!</a>
+									<a href="profile.html">완료</a>
 								</div>
 							</div>
 						</div>
@@ -110,16 +209,90 @@
         dayList.appendChild(optionEl);
       }
     }
-	
+    // 일자별 경로 표시
+    var routeMarkers = [];
+    var linePath = [];
+    var routeOverlays = [];
+    var polyline;
+	function setRoute(){
+		console.log("Route!!!");
+		let selectedDayNum = document.getElementById("selectDay").value;
+		if(planDict.hasOwnProperty(selectedDayNum)){
+			// 오버레이 지우기
+	       	 if (overlay) {
+	                closeOverlay();
+	              }
+	       	// 마커 지우기
+	       	removeMarker();
+	       	// 경로 지우기
+	       	if(linePath.length != 0){
+	       		polyline.setMap(null);
+	       	}
+	       	// 커스텀 오버레이 지우기
+	       	for(let i = 0; i < routeOverlays.length; i++){
+	       		routeOverlays[i].setMap(null);
+	       	}
+	       	routeOverlays = [];
+	       	// 루트 마커 초기화
+	       	routeMarkers = [];
+			for(let i in planDict[selectedDayNum]){
+	        	// 경로 마커 추가 
+	        	var marker = new kakao.maps.Marker({
+	                position: new kakao.maps.LatLng(planDict[selectedDayNum][i]["lat"], planDict[selectedDayNum][i]["lng"]),
+	                clickable: true,
+	              });
+				routeMarkers.push(marker);
+			}
+			// 경로 이어주기
+			addLine(routeMarkers);
+			// 경로 커스텀 오버레이 추가 
+			for(let i = 0; i < planDict[selectedDayNum].length; i++){
+				var content = '<div class="customOverlay">'+
+				'<a>' + 
+				'<span id="numbers">' + (i+1) + '</span>'+
+				'<span class="title">' + planDict[selectedDayNum][i]["title"] + '</span>' + 
+				'</a>' + 
+				'</div>	';
+				addText(routeMarkers[i].getPosition(), content);
+			}
+	    }
+	}
+	// 경로 커스텀 오버레이 
+	function addText(pos,content){
+		var customOverlay = new kakao.maps.CustomOverlay({
+			map:map,
+			position:pos,
+			content:content,
+			yAnchor:1
+		});
+		routeOverlays.push(customOverlay);
+	}
+    // 경로 선 표시
+    function addLine(routeMarkers){
+    	linePath = [];
+    	for(let i = 0; i < routeMarkers.length; i++){
+    		linePath.push(routeMarkers[i].getPosition());
+    	}
+    	// 선 생성
+    	polyline = new kakao.maps.Polyline({
+		    path: linePath, 
+		    strokeWeight: 5, 
+		    strokeColor: '#00973c', 
+		    strokeOpacity: 0.7, 
+		    strokeStyle: 'solid' 
+		});
+    	
+    	polyline.setMap(map);
+    }
+    // 일자별 일정 표시 (우측)
     function viewDay(){
     	let dayListEl = document.querySelector(".day-list");
         removeAllChildNods(dayListEl);
     	let selectedDayNum = document.getElementById("selectDay").value;
-        var idx = 0;
         if(planDict.hasOwnProperty(selectedDayNum)){
-	        for(var i in planDict[selectedDayNum]){
+	        for(let i in planDict[selectedDayNum]){
 	        	 var el = document.createElement("li");
-	       	  	let item = '<div class="row">'+
+	       	  	let item = '<div class="row" onclick="">'+
 					'<div class="col-sm-4 col-md-3 col-xl-4">'+
 					' <img src=' + (planDict[selectedDayNum][i]["imageUrl"]===''?"${root}/assets/img/nophoto.png": planDict[selectedDayNum][i]["imageUrl"]) + ' alt="" class="templatemo-item" /></div>'+
 			'<div class="col-sm-5 col-md-7 col-xl-6">'+
@@ -134,6 +307,7 @@
 	        }
         }
     }
+    
     // 일정 추가 
     function addPlan(idx) {
       var selectedDayNum = document.getElementById("selectDay").value;
@@ -148,9 +322,14 @@
 	   }
     // 일정 삭제 
    	function removePlan(day,idx){
-   		delete planDict[day][idx];
+   		for(var i = 0; i < planDict[day].length; i++){
+			console.log("i = " + i);
+			if(i === idx){
+				planDict[day].splice(i,1);
+				break;
+ 			}
+   		}
    		viewDay();
-   		
    	}
       // 마커를 담을 배열입니다
       var markers = [];
@@ -181,7 +360,7 @@
       });
       
       var places; // 장소 검색 결과를 저장하기 위한 배열
-       function placeList(data) {
+      function placeList(data) {
     	   places = data; // 전달받은 장소 검색 결과 복사 
      	 var listEl = document.getElementById("placesList");
          var menuEl = document.getElementById("menu-wrap");
@@ -298,7 +477,6 @@
       function closeOverlay() {
         overlay.setMap(null);
       }
-
      
     </script>
 </body>
