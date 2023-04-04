@@ -1,13 +1,11 @@
 package com.triptrip.board.dto;
 
-import com.triptrip.user.dto.User;
-
 public class Board {
 	private int id;
 	private String title;
 	private String content;
 	private String imgSrc;
-	private User user;
+	private int userId;
 
 	public int getId() {
 		return id;
@@ -19,6 +17,14 @@ public class Board {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public void setTitle(String title) {
@@ -40,14 +46,5 @@ public class Board {
 	public void setImgSrc(String imgSrc) {
 		this.imgSrc = imgSrc;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 
 }
