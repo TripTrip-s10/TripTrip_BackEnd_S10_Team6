@@ -1,6 +1,9 @@
 package com.triptrip.plan.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +15,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.tribes.util.Arrays;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.triptrip.map.dto.MapDto;
-import com.triptrip.map.service.MapService;
-import com.triptrip.map.service.MapServiceImpl;
 import com.triptrip.plan.service.PlanService;
 import com.triptrip.plan.service.PlanServiceImpl;
 
@@ -34,14 +37,55 @@ public class PlanController extends HttpServlet {
 		super.init(config);
 		planService = PlanServiceImpl.getPlanService();
 	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.println("action = " + action);
 		if ("keywordList".equals(action)) {
 			keywordList(request, response);
+		}else if("planList".equals(action)) {
+			try {
+				planList(request,response);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+	}
+	private void planList(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		String body = getBody(request);
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = (JSONObject)parser.parse(body);
+		System.out.println(jsonObject.get("plans"));
+	}
+
+	private String getBody(HttpServletRequest request) throws IOException{
+		String body = null;
+		StringBuilder sb = new StringBuilder();
+		BufferedReader br = null;
+		try {
+			InputStream inputStream = request.getInputStream();
+			if(inputStream	!= null) {
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				char[] charBuffer = new char[128];
+				int bytesRead = -1;
+				while((bytesRead = br.read(charBuffer))>0) {
+					sb.append(charBuffer,0,bytesRead);
+				}
+			}
+		}catch(IOException e) {
+			throw e;
+		}finally {
+			if(br != null) {
+				try {
+					br.close();
+				}catch(IOException e) {
+					throw e;
+				}
+			}
+		}
+		body = sb.toString();
+		return body;
 	}
 
 	private String keywordList(HttpServletRequest request, HttpServletResponse response) {
@@ -58,6 +102,8 @@ public class PlanController extends HttpServlet {
 		return null;
 
 	}
+	
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

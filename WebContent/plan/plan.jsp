@@ -113,21 +113,20 @@
 					<!-- ***** Featured Games Start ***** -->
 					<div class="row">
 						<div>
-							<form class="row g-3 form-inline" id="plan-form" role="form"
-								method="POST" action="">
-								<div class="col-md-12">
-									<span>제목</span> <input type="text" class="form-control"
-										id="title" />
-								</div>
-								<div class="col-md-6" style="margin-top: 10px">
+							<div class="col-md-12">
+								<span>제목</span> <input type="text" class="form-control"
+									id="title" />
+							</div>
+							<div>
+								<div class="col-md-6" style="margin-top: 10px; float: left;">
 									<span>시작일</span> <input type="date" class="form-control"
 										id="start-date" onchange="getStartDate()" />
 								</div>
-								<div class="col-md-6" style="margin-top: 10px">
+								<div class="col-md-6" style="margin-top: 10px; float: left;">
 									<span>종료일</span> <input type="date" class="form-control"
 										id="end-date" onchange="getEndDate()" />
 								</div>
-							</form>
+							</div>
 						</div>
 						<div class="col-lg-8" style="margin-top: 20px">
 							<div class="featured-games header-text"
@@ -160,8 +159,9 @@
 								</div>
 								<ul class="day-list" style="overflow: auto; height: 518px">
 								</ul>
-								<div class="text-button" id="create-button">
-									<a href="profile.html">완료</a>
+								<div class="text-button" id="create-button"
+									onclick="sendContent()">
+									<a>완료</a>
 								</div>
 							</div>
 						</div>
@@ -208,6 +208,24 @@
         optionEl.value = day;
         dayList.appendChild(optionEl);
       }
+    }
+    // json 생성 후 보내기 
+    function sendContent(){
+    	var obj = {};
+        obj["userid"] = "ssafy";
+        obj["title"] = document.querySelector("#title").value;
+        obj["sdate"] = startDate;
+        obj["edate"] = endDate;
+        obj["plans"] = planDict;
+        console.log(obj);
+        var data = {
+        		method:"POST",
+        		headers:{
+        			"Content-Type":"application/json",
+        		},
+        		body: JSON.stringify(obj),
+        }
+       	fetch("${root}/plan?action=planList", data)
     }
     // 일자별 경로 표시
     var routeMarkers = [];
