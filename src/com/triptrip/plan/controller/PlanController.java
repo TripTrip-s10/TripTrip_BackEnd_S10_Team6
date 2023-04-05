@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,11 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.triptrip.map.dto.MapDto;
+import com.triptrip.plan.dto.PlanDto;
+import com.triptrip.plan.dto.PlanPlaceDto;
 import com.triptrip.plan.service.PlanService;
 import com.triptrip.plan.service.PlanServiceImpl;
 
@@ -52,11 +56,48 @@ public class PlanController extends HttpServlet {
 			}
 		}
 	}
-	private void planList(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+	private void planList(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
 		String body = getBody(request);
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObject = (JSONObject)parser.parse(body);
-		System.out.println(jsonObject.get("plans"));
+		// plan - 계획 
+		PlanDto planDto = new PlanDto();
+		planDto.setUserId(jsonObject.get("userId").toString());
+		planDto.setTitle(jsonObject.get("title").toString());
+		planDto.setStartDate((String) jsonObject.get("startDate"));
+		planDto.setEndDate((String) jsonObject.get("endDate"));
+		System.out.println(planDto);
+		try {
+			int planId = planService.addPlan(planDto);
+			System.out.println("planId = " + planId);
+			
+			// planPlace - 일자별
+			JSONObject plans = (JSONObject) jsonObject.get("plans");
+			Iterator<String> keys = plans.keySet().iterator();
+			ArrayList[] planPlaceList = new ArrayList[plans.size()];
+			System.out.println(plans.size());
+			String key = "";
+			for(int i = 0; i < plans.size(); i++) {
+				key = keys.next();
+				JSONArray planArr = (JSONArray) plans.get(key);
+				System.out.println(planArr);
+				planPlaceList[i] = new ArrayList<PlanPlaceDto>();
+				for(int j = 0; j < planArr.size(); j++) {
+					JSONObject place = (JSONObject)planArr.get(j);
+					PlanPlaceDto planPlaceDto = new PlanPlaceDto();
+					planPlaceDto.setPlanId(planId);
+					planPlaceDto.setDay(Integer.parseInt(key));
+					planPlaceDto.setContentId(Integer.parseInt(place.get("contentId").toString()));
+					planPlaceList[i].add(planPlaceDto);
+				}
+			}
+			planService.addPlanPlace(planPlaceList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	private String getBody(HttpServletRequest request) throws IOException{
@@ -102,8 +143,6 @@ public class PlanController extends HttpServlet {
 		return null;
 
 	}
-	
-	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

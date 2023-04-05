@@ -5,7 +5,6 @@
 <!-- 메인 페이지 -->
 <%
 	User user = (User)session.getAttribute("userinfo");
-
 %>
 <!DOCTYPE html>
 <html lang="en">

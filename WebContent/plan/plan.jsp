@@ -161,7 +161,7 @@
 								</ul>
 								<div class="text-button" id="create-button"
 									onclick="sendContent()">
-									<a>완료</a>
+									<a href="${root}/user/profile.jsp">완료</a>
 								</div>
 							</div>
 						</div>
@@ -212,10 +212,10 @@
     // json 생성 후 보내기 
     function sendContent(){
     	var obj = {};
-        obj["userid"] = "ssafy";
+        obj["userId"] = "ssafy";
         obj["title"] = document.querySelector("#title").value;
-        obj["sdate"] = startDate;
-        obj["edate"] = endDate;
+        obj["startDate"] = document.getElementById("start-date").value;
+        obj["endDate"] =document.getElementById("end-date").value;
         obj["plans"] = planDict;
         console.log(obj);
         var data = {
