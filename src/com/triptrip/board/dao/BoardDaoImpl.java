@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +36,14 @@ public class BoardDaoImpl implements BoardDao {
 		try {
 			conn = dbUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("insert into board (user_id, subject, content) \n");
-			sql.append("values (?, ?, ?)");
+			sql.append("insert into board (userId, title, content, createAt, updateAt) \n");
+			sql.append("values (?, ?, ?, ?, ?)");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, board.getUserId());
 			pstmt.setString(2, board.getTitle());
 			pstmt.setString(3, board.getContent());
+			pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+			pstmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 			pstmt.executeUpdate();
 		} finally {
 			dbUtil.close(pstmt, conn);
@@ -111,7 +115,7 @@ public class BoardDaoImpl implements BoardDao {
 		} finally {
 			dbUtil.close(pstmt, conn);
 		}
-		return null;
+		return list;
 	}
 
 	@Override
@@ -136,6 +140,9 @@ public class BoardDaoImpl implements BoardDao {
 				board.setContent(rs.getString("content"));
 				board.setImgSrc(rs.getString("imgSrc"));
 				board.setUserId(rs.getInt("userId"));
+				board.setCreateAt(rs.getTimestamp("createAt").toLocalDateTime());
+				board.setUpdateAt(rs.getTimestamp("updateAt").toLocalDateTime());
+				System.out.println(board.toString());
 			}
 		} finally {
 			dbUtil.close(pstmt, conn);

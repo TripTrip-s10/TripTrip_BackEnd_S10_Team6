@@ -17,6 +17,8 @@ import com.triptrip.board.dto.Board;
 import com.triptrip.board.service.BoardService;
 import com.triptrip.board.service.BoardServiceImpl;
 import com.triptrip.user.dto.User;
+import com.triptrip.user.service.UserService;
+import com.triptrip.user.service.UserServiceImpl;
 import com.triptrip.util.PageNavigation;
 import com.triptrip.util.ParameterCheck;
 
@@ -25,9 +27,11 @@ public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private BoardService boardService;
+	private UserService userService;
 
 	public void init() {
 		boardService = BoardServiceImpl.getService();
+		userService = UserServiceImpl.getUserService();
 	}
 
 	private int pgno;
@@ -45,6 +49,7 @@ public class BoardController extends HttpServlet {
 		pgno = ParameterCheck.notNumberToOne(request.getParameter("pgno"));
 		queryStrig = "?pgno=" + pgno;
 
+		
 		if ("mvwrite".equals(action)) {
 			path = "/board/write.jsp";
 			redirect(request, response, path);
@@ -55,6 +60,7 @@ public class BoardController extends HttpServlet {
 			path = view(request, response);
 			forward(request, response, path);
 		} else if ("list".equals(action)) {
+			System.out.println("??");
 			path = viewList(request, response);
 			forward(request, response, path);
 		} else if ("mvupdate".equals(action)) {
@@ -92,21 +98,16 @@ public class BoardController extends HttpServlet {
 	private String write(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("userinfo");
+		System.out.println("????");
 		if (user != null) {
 			Board board = new Board();
 			board.setUserId(user.getId());
 			board.setTitle(request.getParameter("title"));
 			board.setContent(request.getParameter("content"));
+			System.out.println(board.toString());
 			try {
-				String title = board.getTitle();
-				for (int i = 0; i < 50; i++) {
-					board.setTitle(title + ".." + i);
-					boardService.write(board);
-//					뻑갈수 있기 때  ㅋ 문 ㅋ 
-					Thread.sleep(50);
-				}
-
-				return "/article?action=list";
+				boardService.write(board);
+				return "/board?action=list";
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("msg", "글작성 중 문제 발생!!!");
@@ -117,27 +118,33 @@ public class BoardController extends HttpServlet {
 	}
 
 	private String view(HttpServletRequest request, HttpServletResponse response) {
-		int boardId = Integer.parseInt(request.getParameter("boardId"));
+		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
-			Board article = boardService.getArticle(boardId);
+			Board article = boardService.getArticle(articleId);
+			System.out.println("view:"+article.toString());
 			request.setAttribute("article", article);
-			return "/board/view.jsp";
+			
+			int userId = article.getUserId();
+			User writer = userService.findById(userId);
+			request.setAttribute("writer", writer);
+			return "/board/article.jsp";
 		} catch (Exception e) {
+			System.out.println(e);
 			return "/error/error.jsp";
 		}
 	}
 
 	private String viewList(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("pgno", pgno + "");
-
-			PageNavigation pageNavigation = boardService.makePageNavigation(map);
-			request.setAttribute("navigation", pageNavigation);
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("pgno", pgno + "");
+//
+//			PageNavigation pageNavigation = boardService.makePageNavigation(map);
+//			request.setAttribute("navigation", pageNavigation);
 
 			List<Board> list = boardService.listArticle();
-			request.setAttribute("articleList", list);
-			return "/board/list.jsp" + queryStrig;
+			request.setAttribute("articles", list);
+			return "/board/board.jsp";
 		} catch (Exception e) {
 			return "/error/error.jsp";
 		}

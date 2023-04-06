@@ -155,7 +155,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			conn = dbUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("selet * from user \n").append("where id = ?");
+			sql.append("select * from user \n").append("where id = ?");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, userPk);
 			rs = pstmt.executeQuery();

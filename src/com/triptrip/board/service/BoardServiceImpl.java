@@ -27,31 +27,31 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void write(Board board) throws SQLException {
 		// TODO Auto-generated method stub
-
+		boardDao.write(board);
 	}
 
 	@Override
 	public void update(Board board) throws SQLException {
 		// TODO Auto-generated method stub
-
+		boardDao.update(board);
 	}
 
 	@Override
 	public void delete(int boardId) throws SQLException {
 		// TODO Auto-generated method stub
-
+		boardDao.delete(boardId);
 	}
 
 	@Override
 	public List<Board> listArticle() throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return boardDao.listArticle();
 	}
 
 	@Override
 	public Board getArticle(int boardId) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return boardDao.getArticle(boardId);
 	}
 	
 	@Override

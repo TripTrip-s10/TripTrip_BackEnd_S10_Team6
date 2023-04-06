@@ -17,5 +17,5 @@ public interface BoardDao {
 
 	Board getArticle(int boardId) throws SQLException;
 
-	int getTotalArticleCount(Map<String, Object> param)throws SQLException;
+	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 }
