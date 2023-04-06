@@ -100,19 +100,19 @@ public class PlanDaoImpl implements PlanDao {
 		try {
 			conn = dbUtil.getConnection();
 			sql = new StringBuilder();
-			sql.append("insert into plan_place(plan_id, day, content_id)\n values");
+			sql.append("insert into plan_place(plan_id, day, content_id,place_order)\n values");
 			for (int i = 0; i < planPlaceList.length; i++) {
 				if (planPlaceList.length - 1 == i) {
 					for (int j = 0; j < planPlaceList[i].size(); j++) {
 						if (planPlaceList[i].size() - 1 == j) {
-							sql.append("(?,?,?);");
+							sql.append("(?,?,?,?);");
 						} else {
-							sql.append("(?,?,?),\n");
+							sql.append("(?,?,?,?),\n");
 						}
 					}
 				} else {
 					for (int j = 0; j < planPlaceList[i].size(); j++) {
-						sql.append("(?,?,?),\n");
+						sql.append("(?,?,?,?),\n");
 					}
 				}
 			}
@@ -124,8 +124,10 @@ public class PlanDaoImpl implements PlanDao {
 					pstmt.setInt(idx++, planPlaceDto.getPlanId());
 					pstmt.setInt(idx++, planPlaceDto.getDay());
 					pstmt.setInt(idx++, planPlaceDto.getContentId());
+					pstmt.setInt(idx++, i+1);
 				}
 			}
+			System.out.println(pstmt);
 			pstmt.executeUpdate();
 		} finally {
 			dbUtil.close(pstmt, conn);

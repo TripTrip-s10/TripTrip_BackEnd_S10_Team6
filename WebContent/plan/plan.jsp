@@ -213,7 +213,7 @@
     // json 생성 후 보내기 
     function sendContent(){
     	var obj = {};
-        obj["userId"] = "ssafy";
+        obj["userId"] = <%=user.getId() %>;
         obj["title"] = document.querySelector("#title").value;
         obj["startDate"] = document.getElementById("start-date").value;
         obj["endDate"] =document.getElementById("end-date").value;
