@@ -92,10 +92,11 @@
 													<c:forEach var="plan" items="${plans}">
 														<div class="col-lg-3 col-sm-6">
 															<div class="item">
-																<h4 style="margin:0px">${plan.title}
-																	<br />
-																	<span>${plan.startDate} <%= "-" %> ${plan.endDate}</span>
-																</h4>
+																<h4 class="plan-title" data-no="${plan.planId}" style="margin: 0px">
+																	${plan.title}</h4>
+																<br /> <span>${plan.startDate} <%="-"%>
+																	${plan.endDate}
+																</span>
 															</div>
 														</div>
 													</c:forEach>
@@ -155,22 +156,36 @@
 	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${root}/assets/js/profile.js"></script>
 	<script>
-    document.querySelector("#logout-button").addEventListener("click", function () {
-            let form = document.querySelector("#auth-form");
-            form.setAttribute("action", "${root}/user");
-            form.submit();
-          });
-      document.querySelector("#profile-update-button").addEventListener("click", function () {
-        if (!document.querySelector("#username").value && !document.querySelector("#usermsg").value) {
-          alert("수정 사항을 입력해주십시오.");
-          return;
-        } else {
-        console.log(document.querySelector("#username").value);
-          let form = document.querySelector("#profile-update-form");
-          form.setAttribute("action", "${root}/user");
-          form.submit();
-        }
-      });
-    </script>
+		let titles = document.querySelectorAll(".plan-title");
+		console.log(titles);
+		titles.forEach(function(title) {
+			title.addEventListener("click", function() {
+				console.log(this.getAttribute("data-no"));
+				location.href = "${root}/plan?action=view&planNo="
+						+ this.getAttribute("data-no");
+			});
+		});
+		document.querySelector("#logout-button").addEventListener("click",
+				function() {
+					let form = document.querySelector("#auth-form");
+					form.setAttribute("action", "${root}/user");
+					form.submit();
+				});
+		document.querySelector("#profile-update-button").addEventListener(
+				"click",
+				function() {
+					if (!document.querySelector("#username").value
+							&& !document.querySelector("#usermsg").value) {
+						alert("수정 사항을 입력해주십시오.");
+						return;
+					} else {
+						console.log(document.querySelector("#username").value);
+						let form = document
+								.querySelector("#profile-update-form");
+						form.setAttribute("action", "${root}/user");
+						form.submit();
+					}
+				});
+	</script>
 </body>
 </html>

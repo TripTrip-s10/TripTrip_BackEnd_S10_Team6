@@ -101,7 +101,6 @@
 		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
 </style>
-</style>
 <body>
 	<!-- nav bar start -->
 	<%@ include file="/common/nav.jsp"%>
