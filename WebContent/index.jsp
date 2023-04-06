@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
+    pageEncoding="UTF-8" import= "java.util.*,  com.triptrip.board.dto.Board, com.triptrip.board.service.BoardService, com.triptrip.board.service.BoardServiceImpl" %>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
+<% 
+	BoardService boardService = BoardServiceImpl.getService();	
+	List<Board> articles = new ArrayList<>();%>
 <!-- 메인 페이지 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +47,7 @@
                     <% if(user == null){ %>
                     <div class="index-button">
                       <a href="user/login.jsp" id="signIn">시작하기</a>
-                    </div><%} %>
+                    </div> <%} %>
                   </div>
                 </div>
               </div>
@@ -59,68 +62,16 @@
                     <h4><em>요즘 가장 인기있는</em>&nbsp;&nbsp;여행 게시물</h4>
                   </div>
                   <div class="row">
+ <% for(int i =0; i<articles.size(); i++){ %>
                     <div class="col-lg-3 col-sm-6">
                       <div class="item">
-                        <a href="article.html?articleCode=1">
+                        <a href="#" class="article-title" data-no=<%=articles.get(i).getId() %>>
                         <img src="assets/img/popular-01.jpg" alt="" />
-                        <h4>서울나들이 신난당<br /><span>서울</span></h4>
+                        <h4><%=articles.get(i).getTitle() %><br /><span>서울</span></h4>
                         </a>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <img src="assets/img/popular-02.jpg" alt="" />
-                        <h4>날씨 짱 좋다!!...<br /><span>서울</span></h4>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?articleCode=1">
-                        <img src="assets/img/popular-01.jpg" alt="" />
-                        <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?areaCode=1">
-                        <img src="assets/img/popular-01.jpg" alt="" />
-                        <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?articleCode=1">
-                          <img src="assets/img/popular-01.jpg" alt="" />
-                          <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                          </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?articleCode=1">
-                          <img src="assets/img/popular-01.jpg" alt="" />
-                          <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                          </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?articleCode=1">
-                          <img src="assets/img/popular-01.jpg" alt="" />
-                          <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                          </a>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="article.html?articleCode=1">
-                          <img src="assets/img/popular-01.jpg" alt="" />
-                          <h4>서울나들이 신난당<br /><span>서울</span></h4>
-                          </a>
-                      </div>
-                    </div>
+<%} %>
                   </div>
                 </div>
               </div>
@@ -153,6 +104,15 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <!--  <script src="assets/js/main.js"></script> -->    
     <script src="assets/js/profile.js"></script>
-
+	<script>
+		let title = document.querySelectorAll(".article-title");
+		title.forEach(function(title) {
+			title.addEventListener("click", function() {
+				console.log(this.getAttribute("data-no"));
+				location.href = "${root}/board?action=view&articleno="
+						+ this.getAttribute("data-no");
+			});
+		});
+	</script>
   </body>
 </html>

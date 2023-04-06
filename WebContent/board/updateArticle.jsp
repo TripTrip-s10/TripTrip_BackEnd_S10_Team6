@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="com.triptrip.user.dto.User"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}" />
-<% User writer = (User)request.getAttribute("writer"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,48 +39,41 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="page-content">
-					<!-- ***** Banner Start ***** -->
-					<div class="banner">
-						<div class="row">
-							<!-- <div class="col-lg-7"> -->
-							<div class="header-text">
-								<!-- <h4><em>여행 게시물</em></h4> -->
-							</div>
-							<div class="col-lg-12">
-								<div class="travle-info">
-									<div class="article-title" id="article-title">
-										<h4>${article.title}</h4>
+					<!-- ***** Featured Games Start ***** -->
+					<div class="row">
+						<div class="title-input" style="margin-bottom: 15px">
+							<form class="row g-3 form-inline" role="form" id="article-form"
+								method="post" action="">
+								<input type="hidden" name="action" value="update" />
+								<input type="hidden" id="articleno" name="articleno" value="${article.id}" />
+								<div class="col-md-6" style="margin-top: 10px">
+									<span>시작일</span> <input type="date" class="form-control"
+										placeholder="시작일" />
+								</div>
+								<div class="col-md-6" style="margin-top: 10px">
+									<span>종료일</span> <input type="date" class="form-control"
+										placeholder="종료일" />
+								</div>
+								<div class="col-12">
+									<input type="text" class="form-control" id="title" name="title"
+										value="${article.title}"/>
+								</div>
+								<div class="col-12">
+									<textarea class="form-control" id="content" name="content"
+										style="height: 540px; font-size: small">
+										${article.content}
+										</textarea>
+								</div>
+								<div class="col-12">
+									<div class="index-button me-0" id="updateArticle-button">
+										<a>저장하기</a>
 									</div>
-									<div class="article-info">
-										<span id="creator" style="color: gray">by
-											${writer.name}</span> <span id="crateDate"
-											style="margin-left: 10px; color: gray;">${article.createAt}
-										</span>
-									</div>
-
 								</div>
-							</div>
-						</div>
-						<!-- ***** Banner End ***** -->
-						<div class="most-popular">
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="article-content" style="margin-top: 10px">
-										${article.content}</div>
-								</div>
-								<div class="col-lg-12" style="background-color: #f1f1f1;">
-								</div>
-							</div>
+							</form>
 						</div>
 					</div>
-<%if(user.getId() !=  writer.getId()) {%>
-					<div style="float: right">
-						<span class="login-button" id="mvupdate-button"> <a>수정하기</a>
-						</span> <span class="join-button" id="delete-button"> <a>삭제하기</a>
-						</span>
-					</div>
+					<!-- ***** Featured Games End ***** -->
 				</div>
-<%} %>
 			</div>
 		</div>
 	</div>
@@ -105,14 +97,21 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${root}/assets/js/profile.js"></script>
+
 	<script>
-	document.querySelector("#mvupdate-button").addEventListener("click", function () {
-    	location.href = "${root}/board?action=mvupdate&articleno="+${article.id};
-      });
-      
-      document.querySelector("#delete-button").addEventListener("click", function () {
-    	  location.href = "${root}/board?action=delete&articleno="+${article.id};
-      });
+		document.querySelector("#updateArticle-button").addEventListener(
+				"click",
+				function() {
+					if (!document.querySelector("#title").value
+							|| !document.querySelector("#content").value) {
+						alert("제목 및 내용 모두 입력해 주세요.");
+						return;
+					} else {
+						let form = document.querySelector("#article-form");
+						form.setAttribute("action", "${root}/board");
+						form.submit();
+					}
+				});
 	</script>
 </body>
 </html>

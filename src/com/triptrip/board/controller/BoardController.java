@@ -60,15 +60,14 @@ public class BoardController extends HttpServlet {
 			path = view(request, response);
 			forward(request, response, path);
 		} else if ("list".equals(action)) {
-			System.out.println("??");
 			path = viewList(request, response);
 			forward(request, response, path);
 		} else if ("mvupdate".equals(action)) {
 			path = mvupdate(request, response);
-			redirect(request, response, path);
+			forward(request, response, path);
 		} else if ("update".equals(action)) {
 			path = update(request, response);
-			redirect(request, response, path);
+			forward(request, response, path);
 		} else if ("delete".equals(action)) {
 			path = delete(request, response);
 			redirect(request, response, path);
@@ -151,38 +150,39 @@ public class BoardController extends HttpServlet {
 	}
 
 	private String mvupdate(HttpServletRequest request, HttpServletResponse response) {
-		int boardId = Integer.parseInt(request.getParameter("boardId"));
+		int boardId = Integer.parseInt(request.getParameter("articleno"));
 		try {
 			Board article = boardService.getArticle(boardId);
 			request.setAttribute("article", article);
-			return "/board/update.jsp";
+			return "/board/updateArticle.jsp";
 		} catch (Exception e) {
 			return "/error/error.jsp";
 		}
 	}
 
 	private String update(HttpServletRequest request, HttpServletResponse response) {
-		int boardId = Integer.parseInt(request.getParameter("boardId"));
-		String boardTitle = request.getParameter("boardTitle");
-		String boardContent = request.getParameter("boardContent");
+		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
-			Board article = boardService.getArticle(boardId);
-			article.setTitle(boardTitle);
-			article.setContent(boardContent);
+
+			Board article = boardService.getArticle(articleId);
+			article.setTitle(request.getParameter("title"));
+			article.setContent(request.getParameter("content"));
 
 			boardService.update(article);
 
-			return "/article?action=view&boardId=" + boardId;
+			return "/board?action=view&articleno=" + articleId;
 		} catch (Exception e) {
+			System.out.println(e);
 			return "/error/error.jsp";
 		}
 	}
 
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
-		int boardId = Integer.parseInt(request.getParameter("boardId"));
+		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
-			boardService.delete(boardId);
-			return "/board/list.jsp";
+//			System.out.println(articleId);
+			boardService.delete(articleId);
+			return "/board?action=list";
 		} catch (Exception e) {
 			return "/error/error.jsp";
 		}
