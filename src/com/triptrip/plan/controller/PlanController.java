@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -156,12 +157,9 @@ public class PlanController extends HttpServlet {
 		try {
 			PlanDto plan = planService.getPlan(planId);
 			System.out.println(plan.toString());
-//			System.out.println("view:"+article.toString());
-//			request.setAttribute("article", article);
-//			
-//			int userId = article.getUserId();
-//			User writer = userService.findById(userId);
-//			request.setAttribute("writer", writer);
+			request.setAttribute("plan", plan);
+			Map<Integer,List<MapDto>> placeList = planService.getPlanPlace(planId);
+			request.setAttribute("places", placeList);
 			return "/plan/view.jsp";
 		} catch (Exception e) {
 			System.out.println(e);

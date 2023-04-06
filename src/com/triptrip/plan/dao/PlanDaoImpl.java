@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mysql.cj.PingTarget;
 import com.triptrip.map.dao.MapDaoImpl;
@@ -100,19 +104,19 @@ public class PlanDaoImpl implements PlanDao {
 		try {
 			conn = dbUtil.getConnection();
 			sql = new StringBuilder();
-			sql.append("insert into plan_place(plan_id, day, content_id,place_order)\n values");
+			sql.append("insert into plan_place(plan_id, day, content_id,createAt,updateAt)\n values");
 			for (int i = 0; i < planPlaceList.length; i++) {
 				if (planPlaceList.length - 1 == i) {
 					for (int j = 0; j < planPlaceList[i].size(); j++) {
 						if (planPlaceList[i].size() - 1 == j) {
-							sql.append("(?,?,?,?);");
+							sql.append("(?,?,?,?,?);");
 						} else {
-							sql.append("(?,?,?,?),\n");
+							sql.append("(?,?,?,?,?),\n");
 						}
 					}
 				} else {
 					for (int j = 0; j < planPlaceList[i].size(); j++) {
-						sql.append("(?,?,?,?),\n");
+						sql.append("(?,?,?,?,?),\n");
 					}
 				}
 			}
@@ -124,7 +128,8 @@ public class PlanDaoImpl implements PlanDao {
 					pstmt.setInt(idx++, planPlaceDto.getPlanId());
 					pstmt.setInt(idx++, planPlaceDto.getDay());
 					pstmt.setInt(idx++, planPlaceDto.getContentId());
-					pstmt.setInt(idx++, i+1);
+					pstmt.setTimestamp(idx++, Timestamp.valueOf(LocalDateTime.now()));
+					pstmt.setTimestamp(idx++, Timestamp.valueOf(LocalDateTime.now()));
 				}
 			}
 			System.out.println(pstmt);
@@ -160,5 +165,44 @@ public class PlanDaoImpl implements PlanDao {
 			dbUtil.close(rs,pstmt,conn);
 		}
 		return planDto;
+	}
+
+	@Override
+	public Map<Integer, List<MapDto>> getPlanPlace(int planId) throws SQLException{
+		Map<Integer,List<MapDto>> placeList = new HashMap<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select plan_placeid, day, plan_place.content_id, title, addr1,first_image, latitude, longitude\n");
+			sql.append("from plan_place\n");
+			sql.append("inner join attraction_info\n");
+			sql.append("on plan_place.content_id = attraction_info.content_id\n");
+			sql.append("where plan_place.plan_id = ?\n");
+			sql.append("order by plan_place.plan_placeid;\n");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, planId);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int day = rs.getInt("day");
+				if(!placeList.containsKey(day)) {
+					placeList.put(day,new ArrayList<MapDto>());
+				}
+				MapDto mapDto = new MapDto();
+				mapDto.setContentId(rs.getString("plan_place.content_id"));
+				mapDto.setTitle(rs.getString("title"));
+				mapDto.setAddr(rs.getString("addr1"));
+				mapDto.setImageUrl(rs.getString("first_image"));
+				mapDto.setLat(rs.getDouble("latitude"));
+				mapDto.setLng(rs.getDouble("longitude"));
+				placeList.get(day).add(mapDto);
+				
+			}
+		}finally {
+			dbUtil.close(rs,pstmt,conn);
+		}
+		return placeList;
 	}
 }
