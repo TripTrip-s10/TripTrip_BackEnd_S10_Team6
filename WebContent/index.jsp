@@ -59,7 +59,7 @@ https://templatemo.com/tm-579-cyborg-gaming
               <!-- ***** Menu Start ***** -->
               <ul class="nav">
                 <li><a href="index.jsp" class="active">Home</a></li>
-                <li><a href="browse.jsp">Browse</a></li>
+                <li><a href="${root}/map/mapList.jsp">Map</a></li>
                 <li><a href="board.jsp">Board</a></li>
                 <li><a href="createArticle.jsp">Posting</a></li>
                 <% if(user != null){ %>
