@@ -17,9 +17,9 @@
 					<!-- ***** Logo End ***** -->
 					<!-- ***** Menu Start ***** -->
 					<ul class="nav">
-						<li><a href="${root}/index.jsp">Home</a></li>
+						<li><a href="${root}/board?action=list">Board</a></li>
+						<li><a href="${root}/board/createArticle.jsp">Posting</a></li>
 						<li><a href="${root}/map/mapList.jsp">Map</a></li>
-						<li><a href="board.html">Board</a></li>
 						<%
 							if (user != null) {
 						%>

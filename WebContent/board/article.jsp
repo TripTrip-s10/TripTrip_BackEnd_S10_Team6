@@ -27,103 +27,75 @@
 <link rel="stylesheet" href="${root}/assets/css/animate.css" />
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-<!--
- 
-  </head>
 
-  <body>
-    <!-- ***** Header Area Start ***** -->
-<header class="header-area header-sticky">
+</head>
+
+<body>
+	<!-- nav bar start -->
+	<%@ include file="/common/nav.jsp"%>
+	<!-- nav bar end -->
+
 	<div class="container">
 		<div class="row">
-			<div class="col-12">
-				<nav class="main-nav">
-					<!-- ***** Logo Start ***** -->
-					<a href="index.html" class="logo" style="padding-top: 5px">
-						<h1 style="color: rgba(0, 151, 60, 1); font-size: x-larger">
-							Trip!Trip!</h1>
-					</a>
-					<!-- ***** Logo End ***** -->
-					<!-- ***** Menu Start ***** -->
-					<ul class="nav">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="browse.html">Browse</a></li>
-						<li><a href="board.html">Board</a></li>
-						<li id="profile"><a href="profile.html">Profile
-								<img src="../assets/img/profile-header.jpg" alt="" />
-						</a></li>
-					</ul>
-					<a class="menu-trigger"> <span>Menu</span>
-					</a>
-					<!-- ***** Menu End ***** -->
-				</nav>
-			</div>
-		</div>
-	</div>
-</header>
-<!-- ***** Header Area End ***** -->
-
-<div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="page-content">
-				<!-- ***** Banner Start ***** -->
-				<div class="banner">
-					<div class="row">
-						<!-- <div class="col-lg-7"> -->
-						<div class="header-text">
-							<!-- <h4><em>여행 게시물</em></h4> -->
-						</div>
-						<div class="col-lg-12">
-							<div class="travle-info">
-								<div class="article-title" id="article-title">
-									<h4>${article.title}</h4>
-								</div>
-								<div class="article-info">
-									<span id="creator" style="color: gray">by ${writer.name}</span> 
-									<span id="crateDate" style="margin-left: 10px; color: gray;">${article.createAt}
-									</span>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<!-- ***** Banner End ***** -->
-					<div class="most-popular">
+			<div class="col-lg-12">
+				<div class="page-content">
+					<!-- ***** Banner Start ***** -->
+					<div class="banner">
 						<div class="row">
+							<!-- <div class="col-lg-7"> -->
+							<div class="header-text">
+								<!-- <h4><em>여행 게시물</em></h4> -->
+							</div>
 							<div class="col-lg-12">
+								<div class="travle-info">
+									<div class="article-title" id="article-title">
+										<h4>${article.title}</h4>
+									</div>
+									<div class="article-info">
+										<span id="creator" style="color: gray">by
+											${writer.name}</span> <span id="crateDate"
+											style="margin-left: 10px; color: gray;">${article.createAt}
+										</span>
+									</div>
 
-								<div class="article-content" style="margin-top: 10px">
-									${article.content}
 								</div>
 							</div>
-							<div class="col-lg-12" style="background-color: #f1f1f1;">
+						</div>
+						<!-- ***** Banner End ***** -->
+						<div class="most-popular">
+							<div class="row">
+								<div class="col-lg-12">
+
+									<div class="article-content" style="margin-top: 10px">
+										${article.content}</div>
+								</div>
+								<div class="col-lg-12" style="background-color: #f1f1f1;">
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<p>
-						Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights
-						reserved. <br />Design: <a href="https://templatemo.com"
-							target="_blank" title="free CSS templates">TemplateMo</a>
-						Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					</p>
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p>
+							Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All
+							rights reserved. <br />Design: <a href="https://templatemo.com"
+								target="_blank" title="free CSS templates">TemplateMo</a>
+							Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</footer>
+		</footer>
 
-	<!-- Scripts -->
-	<!-- Bootstrap core JavaScript -->
-	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${root}/assets/js/profile.js"></script>
-	</body>
+		<!-- Scripts -->
+		<!-- Bootstrap core JavaScript -->
+		<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="${root}/assets/js/profile.js"></script>
+</body>
 </html>

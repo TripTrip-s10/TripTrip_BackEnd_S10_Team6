@@ -24,53 +24,13 @@
     <link rel="stylesheet" href="${root}/assets/css/templatemo-cyborg-gaming.css" />
     <link rel="stylesheet" href="${root}/assets/css/animate.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <!--
 
-TemplateMo 579 Cyborg Gaming
-
-https://templatemo.com/tm-579-cyborg-gaming
-
--->
   </head>
 
   <body>
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <nav class="main-nav">
-              <!-- ***** Logo Start ***** -->
-              <a href="${root}/index.jsp" class="logo" style="padding-top: 5px">
-                <h1 style="color: rgba(0, 151, 60, 1); font-size: x-larger; font-weight: bold">
-                  Trip!Trip!
-                </h1>
-                <!-- <img src="../assets/img/logo.png" alt="" /> -->
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="browse.jsp">Browse</a></li>
-                <li><a href="board.jsp">Board</a></li>
-                <li><a href="crateArticle.jsp">Posting</a></li>
-                <li id="profile" style="display: none">
-                  <a href="profile.jsp"
-                    >Profile <img src="${root}/assets/img/profile.jpg" alt=""
-                  /></a>
-                </li>
-              </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
-            </nav>
-          </div>
-        </div>
-      </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
+    <!-- nav bar start -->
+	<%@ include file="/common/nav.jsp"%>
+	<!-- nav bar end -->
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
