@@ -30,9 +30,13 @@ public class PlanServiceImpl implements PlanService {
 	}
 	
 	@Override
-	public void addPlanPlace(ArrayList[] planPlaceList) throws SQLException {
+	public void addPlanPlace(ArrayList[] planPlaceList) throws Exception {
 		System.out.println(Arrays.deepToString(planPlaceList));
 		planDao.addPlanPlace(planPlaceList);
+	}
+	@Override
+	public PlanDto getPlan(int planId) throws Exception {
+		return planDao.getPlan(planId);
 	}
 
 }

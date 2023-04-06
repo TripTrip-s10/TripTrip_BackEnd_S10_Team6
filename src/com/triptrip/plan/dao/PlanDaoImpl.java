@@ -133,4 +133,32 @@ public class PlanDaoImpl implements PlanDao {
 			dbUtil.close(pstmt, conn);
 		}
 	}
+
+	@Override
+	public PlanDto getPlan(int planId) throws SQLException {
+		PlanDto planDto = new PlanDto();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select plan_id, user_id, title, start_date, end_date\n");
+			sql.append("from plan_list\n");
+			sql.append("where plan_id = ?\n");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, planId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				planDto.setPlanId(planId);
+				planDto.setUserId(rs.getInt("user_id"));
+				planDto.setTitle(rs.getString("title"));
+				planDto.setStartDate(rs.getDate("start_date").toString());
+				planDto.setEndDate(rs.getDate("end_date").toString());
+			}
+		}finally {
+			dbUtil.close(rs,pstmt,conn);
+		}
+		return planDto;
+	}
 }

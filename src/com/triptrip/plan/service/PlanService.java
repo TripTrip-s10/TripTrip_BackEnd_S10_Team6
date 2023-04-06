@@ -10,5 +10,6 @@ import com.triptrip.plan.dto.PlanDto;
 public interface PlanService {
 	List<MapDto> keywordList(String keyword) throws Exception;
 	int addPlan(PlanDto planDto) throws Exception;
-	void addPlanPlace(ArrayList[] planPlaceList) throws SQLException;
+	void addPlanPlace(ArrayList[] planPlaceList) throws Exception;
+	PlanDto getPlan(int planId) throws Exception;
 }

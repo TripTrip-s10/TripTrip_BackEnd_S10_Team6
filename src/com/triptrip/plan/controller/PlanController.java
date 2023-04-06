@@ -22,11 +22,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+import com.triptrip.board.dto.Board;
 import com.triptrip.map.dto.MapDto;
 import com.triptrip.plan.dto.PlanDto;
 import com.triptrip.plan.dto.PlanPlaceDto;
 import com.triptrip.plan.service.PlanService;
 import com.triptrip.plan.service.PlanServiceImpl;
+import com.triptrip.user.dto.User;
 
 @WebServlet("/plan")
 public class PlanController extends HttpServlet {
@@ -44,6 +46,7 @@ public class PlanController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
+		String path = "";
 		System.out.println("action = " + action);
 		if ("keywordList".equals(action)) {
 			keywordList(request, response);
@@ -54,8 +57,12 @@ public class PlanController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if("view".equals(action)) {
+			path = view(request, response);
+			forward(request, response, path);
 		}
 	}
+	
 	private void planList(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
 		String body = getBody(request);
 		JSONParser parser = new JSONParser();
@@ -143,7 +150,24 @@ public class PlanController extends HttpServlet {
 		return null;
 
 	}
-
+	private String view(HttpServletRequest request, HttpServletResponse response) {
+		int planId = Integer.parseInt(request.getParameter("planNo"));
+		System.out.println("planID = " + planId);
+		try {
+			PlanDto plan = planService.getPlan(planId);
+			System.out.println(plan.toString());
+//			System.out.println("view:"+article.toString());
+//			request.setAttribute("article", article);
+//			
+//			int userId = article.getUserId();
+//			User writer = userService.findById(userId);
+//			request.setAttribute("writer", writer);
+			return "/plan/view.jsp";
+		} catch (Exception e) {
+			System.out.println(e);
+			return "/error/error.jsp";
+		}
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
