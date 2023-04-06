@@ -193,8 +193,8 @@ public class UserDaoImpl implements UserDao {
 				planDto.setUserId(userId);
 				planDto.setPlanId(rs.getInt("plan_id"));
 				planDto.setTitle(rs.getString("title"));
-				planDto.setStartDate(rs.getString("start_date"));
-				planDto.setEndDate(rs.getString("end_date"));				
+				planDto.setStartDate(rs.getString("start_date").substring(0,10));
+				planDto.setEndDate(rs.getString("end_date").substring(0,10));				
 				planList.add(planDto);
 			}
 		}finally {

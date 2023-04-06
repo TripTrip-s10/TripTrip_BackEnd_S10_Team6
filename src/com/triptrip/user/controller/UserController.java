@@ -24,7 +24,6 @@ import com.triptrip.user.service.UserServiceImpl;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private Gson gson = new Gson();
 	private UserService userService;
 
 	public void init() {
@@ -55,9 +54,10 @@ public class UserController extends HttpServlet {
 		} else if ("withdraw".equals(action)) {
 			path = withdraw(request, response);
 			redirect(request, response, path);
-		} else if ("getMyPlan".equals(action)) {
-			System.out.println("getMyPlan");
-			getMyPlan(request, response);
+		} else if ("profile".equals(action)) {
+			path = profile(request, response);
+			System.out.println("path = " + path);
+			forward(request,response,path);
 		} else {
 			redirect(request, response, path);
 		}
@@ -170,18 +170,19 @@ public class UserController extends HttpServlet {
 		}
 	}
 
-	private String getMyPlan(HttpServletRequest request, HttpServletResponse response) {
+	private String profile(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userinfo");
-			List<PlanDto> list = userService.getPlanList(user.getId());
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(gson.toJson(list));
+			System.out.println(user.getId());
+			List<PlanDto> plans = userService.getPlanList(user.getId());
+			System.out.println(plans.toString());
+			request.setAttribute("plans", plans);
+			return "/user/profile.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "/error/error.jsp";
 		}
-		return null;
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path)

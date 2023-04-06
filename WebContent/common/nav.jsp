@@ -24,7 +24,7 @@
 							if (user != null) {
 						%>
 						<li id="profile" style="">
-						<a href="${root}/user/profile.jsp">Profile
+						<a href="${root}/user?action=profile">Profile
 								<img src="${root}/assets/img/profile.jpg" alt="" />
 						</a></li>
 						<%
