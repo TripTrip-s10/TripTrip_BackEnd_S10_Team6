@@ -1,7 +1,9 @@
 package com.triptrip.user.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import com.triptrip.plan.dto.PlanDto;
 import com.triptrip.user.dao.UserDao;
 import com.triptrip.user.dao.UserDaoImpl;
 import com.triptrip.user.dto.User;
@@ -49,5 +51,10 @@ public class UserServiceImpl implements UserService {
 	public User findById(int userPk) throws SQLException {
 		System.out.println(userPk);
 		return userDao.findById(userPk);
+	}
+
+	@Override
+	public List<PlanDto> getPlanList(int userId) throws SQLException {
+		return userDao.getPlanList(userId);
 	}
 }

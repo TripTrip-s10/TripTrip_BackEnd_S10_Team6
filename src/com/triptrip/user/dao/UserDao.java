@@ -1,7 +1,9 @@
 package com.triptrip.user.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import com.triptrip.plan.dto.PlanDto;
 import com.triptrip.user.dto.User;
 
 public interface UserDao {
@@ -18,4 +20,6 @@ public interface UserDao {
 	void modifyMsg(int userPk, String userMsg) throws SQLException;
 
 	User findById(int userPk) throws SQLException;
+	
+	List<PlanDto> getPlanList(int userId) throws SQLException;
 }

@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.triptrip.plan.dto.PlanDto;
 import com.triptrip.user.dto.User;
 import com.triptrip.util.DBUtil;
 
@@ -168,6 +171,36 @@ public class UserDaoImpl implements UserDao {
 			dbUtil.close(rs, pstmt, conn);
 		}
 		return user;
+	}
+
+	@Override
+	public List<PlanDto> getPlanList(int userId) throws SQLException {
+		List<PlanDto> planList = new ArrayList<PlanDto>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select plan_id, user_id, title, start_date, end_date\n");
+			sql.append("from plan_list\n");
+			sql.append("where user_id = ?\n");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, userId);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				PlanDto planDto = new PlanDto();
+				planDto.setUserId(userId);
+				planDto.setPlanId(rs.getInt("plan_id"));
+				planDto.setTitle(rs.getString("title"));
+				planDto.setStartDate(rs.getString("start_date"));
+				planDto.setEndDate(rs.getString("end_date"));				
+				planList.add(planDto);
+			}
+		}finally {
+			dbUtil.close(rs,pstmt,conn);
+		}
+		return planList;
 	}
 
 }

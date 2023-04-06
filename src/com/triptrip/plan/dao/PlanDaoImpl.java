@@ -76,7 +76,7 @@ public class PlanDaoImpl implements PlanDao {
 			sql.append("values (?,?,?,?,?)\n");
 			pstmt = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, 0);
-			pstmt.setString(2, planDto.getUserId());
+			pstmt.setInt(2, planDto.getUserId());
 			pstmt.setString(3, planDto.getTitle());
 			pstmt.setString(4, planDto.getStartDate());
 			pstmt.setString(5, planDto.getEndDate());

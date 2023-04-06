@@ -7,7 +7,7 @@ public class PlanDto {
 	private String title;
 	private String startDate;
 	private String endDate;
-	private String userId;
+	private int userId;
 	public int getPlanId() {
 		return planId;
 	}
@@ -32,10 +32,10 @@ public class PlanDto {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	@Override

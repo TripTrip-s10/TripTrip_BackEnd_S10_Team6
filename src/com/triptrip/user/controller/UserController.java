@@ -2,6 +2,7 @@ package com.triptrip.user.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.triptrip.map.dto.MapDto;
+import com.triptrip.plan.dto.PlanDto;
 import com.triptrip.user.dto.User;
 import com.triptrip.user.service.UserService;
 import com.triptrip.user.service.UserServiceImpl;
@@ -20,6 +24,7 @@ import com.triptrip.user.service.UserServiceImpl;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private Gson gson = new Gson();
 	private UserService userService;
 
 	public void init() {
@@ -50,6 +55,9 @@ public class UserController extends HttpServlet {
 		} else if ("withdraw".equals(action)) {
 			path = withdraw(request, response);
 			redirect(request, response, path);
+		} else if ("getMyPlan".equals(action)) {
+			System.out.println("getMyPlan");
+			getMyPlan(request, response);
 		} else {
 			redirect(request, response, path);
 		}
@@ -152,14 +160,28 @@ public class UserController extends HttpServlet {
 			if (loginUser.getId() == sessionUser.getId()) {
 				userService.withdraw(loginUser.getId());
 				return "/index.jsp";
-			}else {
+			} else {
 				return "/user/withdraw.jsp";
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "/error/error.jsp";
 		}
+	}
+
+	private String getMyPlan(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userinfo");
+			List<PlanDto> list = userService.getPlanList(user.getId());
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(gson.toJson(list));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path)

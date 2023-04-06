@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.triptrip.user.dto.User, com.triptrip.user.service.UserService, com.triptrip.user.service.UserServiceImpl" %>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <!-- 메인 페이지 -->
-<%
-	User user = (User)session.getAttribute("userinfo");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,49 +25,12 @@
     <link rel="stylesheet" href="${root}/assets/css/templatemo-cyborg-gaming.css" />
     <link rel="stylesheet" href="${root}/assets/css/animate.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <!--
-
-TemplateMo 579 Cyborg Gaming
-
-https://templatemo.com/tm-579-cyborg-gaming
-
--->
   </head>
 
   <body>
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <nav class="main-nav">
-              <!-- ***** Logo Start ***** -->
-              <a href="${root}/index.jsp" class="logo" style="padding-top: 5px">
-                <h1 style="color: rgba(0, 151, 60, 1); font-size: x-larger">Trip!Trip!</h1>
-              </a>
-              <!-- ***** Logo End ***** -->
-              <!-- ***** Menu Start ***** -->
-              <ul class="nav">
-                <li><a href="${root}/index.jsp" class="active">Home</a></li>
-                <li><a href="${root}/browse.jsp">Browse</a></li>
-                <li><a href="${root}/board/board.jsp">Board</a></li>
-                <li><a href="${root}/board/createArticle.jsp">Posting</a></li>
-                <li id="profile" style="">
-                  <a href="${root}/user/profile.jsp"
-                    >Profile <img src="${root}/assets/img/profile.jpg" alt=""
-                  /></a>
-                </li>
-              </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
-              <!-- ***** Menu End ***** -->
-            </nav>
-          </div>
-        </div>
-      </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
+    <!-- nav bar start -->
+	<%@ include file="/common/nav.jsp"%>
+	<!-- nav bar end -->
 
     <div class="container">
       <div class="row">
@@ -161,23 +121,6 @@ https://templatemo.com/tm-579-cyborg-gaming
       </div>
     </div>
 	</div>
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <p>
-              Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights reserved.
-
-              <br />Design:
-              <a href="https://templatemo.com" target="_blank" title="free CSS templates"
-                >TemplateMo</a
-              >
-              Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
     <!-- ProfileEdit Modal start -->
     <div class="modal modal-md fade" id="profileModal">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -217,6 +160,16 @@ https://templatemo.com/tm-579-cyborg-gaming
     <!-- Bootstrap core JavaScript -->
     <script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="${root}/assets/js/profile.js"></script>
+    <script>
+    <!-- 내 여행계획 시작 -->
+   	fetch("${root}/user?action=getMyPlan")
+     .then(response => response.json())
+     .then(data => planList(data)); 
+   	
+   	function planList(data){
+   		console.log(data);
+   	}
+    </script>
     <script>
     document.querySelector("#logout-button").addEventListener("click", function () {
             let form = document.querySelector("#auth-form");

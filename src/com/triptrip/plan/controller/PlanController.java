@@ -62,7 +62,7 @@ public class PlanController extends HttpServlet {
 		JSONObject jsonObject = (JSONObject)parser.parse(body);
 		// plan - 계획 
 		PlanDto planDto = new PlanDto();
-		planDto.setUserId(jsonObject.get("userId").toString());
+		planDto.setUserId(Integer.parseInt(jsonObject.get("userId").toString()));
 		planDto.setTitle(jsonObject.get("title").toString());
 		planDto.setStartDate((String) jsonObject.get("startDate"));
 		planDto.setEndDate((String) jsonObject.get("endDate"));
