@@ -161,7 +161,8 @@
 								</ul>
 								<div class="text-button" id="create-button"
 									onclick="sendContent()">
-									<a href="${root}/user/profile.jsp">완료</a>
+									<!-- <a href="${root}/user/profile.jsp">완료</a> -->
+									<a>완료</a>
 								</div>
 							</div>
 						</div>
