@@ -3,8 +3,6 @@ package com.triptrip.map.service;
 import com.triptrip.map.dao.MapDaoImpl;
 import com.triptrip.map.dto.MapDto;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
