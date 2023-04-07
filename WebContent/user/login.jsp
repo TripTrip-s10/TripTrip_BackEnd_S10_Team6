@@ -106,10 +106,6 @@
 							<input type="text" class="form-control" placeholder="이메일 주소"
 								id="userid" name="userid" />
 						</div>
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="이메일 주소"
-								id="userid" name="userid" />
-						</div>
 					</div>
 
 					<!-- Modal footer -->
