@@ -62,7 +62,7 @@
 											type="button">검색</button>
 									</form>
 								</div>
-								<div id="map" style="width: 100%; height: 540px"></div>
+								<div id="map" style="width: 100%; height: 604px"></div>
 							</div>
 						</div>
 						<div class="col-lg-4">
