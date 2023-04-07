@@ -49,9 +49,8 @@ public class BoardController extends HttpServlet {
 		pgno = ParameterCheck.notNumberToOne(request.getParameter("pgno"));
 		queryStrig = "?pgno=" + pgno;
 
-		
 		if ("mvwrite".equals(action)) {
-			path = "/board/write.jsp";
+			path = mvWrite(request, response, path);
 			redirect(request, response, path);
 		} else if ("write".equals(action)) {
 			path = write(request, response);
@@ -94,10 +93,19 @@ public class BoardController extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + path);
 	}
 
+
+	private String mvWrite(HttpServletRequest request, HttpServletResponse response, String path) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("userinfo");
+		if(user == null)
+			return "/user/login.jsp";
+		return  "/board/write.jsp";
+	}
+
+	
 	private String write(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("userinfo");
-		System.out.println("????");
 		if (user != null) {
 			Board board = new Board();
 			board.setUserId(user.getId());
@@ -120,9 +128,9 @@ public class BoardController extends HttpServlet {
 		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
 			Board article = boardService.getArticle(articleId);
-			System.out.println("view:"+article.toString());
+			System.out.println("view:" + article.toString());
 			request.setAttribute("article", article);
-			
+
 			int userId = article.getUserId();
 			User writer = userService.findById(userId);
 			request.setAttribute("writer", writer);
@@ -141,7 +149,7 @@ public class BoardController extends HttpServlet {
 //			PageNavigation pageNavigation = boardService.makePageNavigation(map);
 //			request.setAttribute("navigation", pageNavigation);
 
-			List<Board> list = boardService.listArticle();
+			List<Board> list = boardService.getArticles();
 			request.setAttribute("articles", list);
 			return "/board/board.jsp";
 		} catch (Exception e) {
@@ -180,8 +188,6 @@ public class BoardController extends HttpServlet {
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
 		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
-//			System.out.println(articleId);
-			boardService.delete(articleId);
 			return "/board?action=list";
 		} catch (Exception e) {
 			return "/error/error.jsp";

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.triptrip.board.dto.Board;
+import com.triptrip.util.BoardSize;
 import com.triptrip.util.DBUtil;
 
 public class BoardDaoImpl implements BoardDao {
@@ -29,7 +30,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public void write(Board board) throws SQLException {
+	public void createArticle(Board board) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
@@ -52,47 +53,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public void update(Board board) throws SQLException {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dbUtil.getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql.append("update board \n").append("set title = ?, content = ? \n").append("where id = ?");
-			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, board.getTitle());
-			pstmt.setString(2, board.getContent());
-			pstmt.setInt(3, board.getId());
-			pstmt.executeUpdate();
-
-		} finally {
-			dbUtil.close(pstmt, conn);
-		}
-
-	}
-
-	@Override
-	public void delete(int boardId) throws SQLException {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dbUtil.getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql.append("delete from board \n").append("where id = ?");
-			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setInt(1, boardId);
-			pstmt.executeUpdate();
-
-		} finally {
-			dbUtil.close(pstmt, conn);
-		}
-
-	}
-
-	@Override
-	public List<Board> listArticle() throws SQLException {
+	public List<Board> getArticles(int num) throws SQLException {
 		List<Board> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -100,8 +61,12 @@ public class BoardDaoImpl implements BoardDao {
 		try {
 			conn = dbUtil.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("select * \n").append("from board");
+			sql.append("select * \n").append("from board\n");
+			if (num == BoardSize.LIMIT_CONTENT)
+				sql.append("Limit ?");
 			pstmt = conn.prepareStatement(sql.toString());
+			if (num == BoardSize.LIMIT_CONTENT)
+				pstmt.setInt(1, BoardSize.LIMIT_CONTENT);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Board board = new Board();
@@ -148,6 +113,46 @@ public class BoardDaoImpl implements BoardDao {
 			dbUtil.close(pstmt, conn);
 		}
 		return board;
+	}
+
+	@Override
+	public void updateArticle(Board board) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("update board \n").append("set title = ?, content = ? \n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getContent());
+			pstmt.setInt(3, board.getId());
+			pstmt.executeUpdate();
+
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+
+	}
+
+	@Override
+	public void deleteArticle(int boardId) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete from board \n").append("where id = ?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, boardId);
+			pstmt.executeUpdate();
+
+		} finally {
+			dbUtil.close(pstmt, conn);
+		}
+
 	}
 
 	@Override

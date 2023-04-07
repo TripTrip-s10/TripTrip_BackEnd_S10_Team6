@@ -72,6 +72,4 @@ public class Board {
 		return "Board [id=" + id + ", title=" + title + ", content=" + content + ", imgSrc=" + imgSrc + ", userId="
 				+ userId + ", createAt=" + createAt + ", updateAt=" + updateAt + "]";
 	}
-	
-
 }

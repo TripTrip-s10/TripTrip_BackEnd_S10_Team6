@@ -51,21 +51,6 @@
 							<div class="col-lg-6">
 								<!-- 생성버튼? -->
 							</div>
-							<div class="col-lg-6 float-end">
-								<div class="form-check" style="float: right;">
-									<input class="form-check-input" type="radio"
-										name="flexRadioDefault" id="flexRadioDefault1"> <label
-										class="form-check-label" for="flexRadioDefault1"> 인기순
-									</label>
-								</div>
-								<div class="form-check me"
-									style="float: right; margin-right: 10px;">
-									<input class="form-check-input" type="radio"
-										name="flexRadioDefault" id="flexRadioDefault2" checked>
-									<label class="form-check-label" for="flexRadioDefault2">
-										최신순 </label>
-								</div>
-							</div>
 
 						</div>
 					</div>

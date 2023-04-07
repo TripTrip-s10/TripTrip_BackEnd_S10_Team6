@@ -33,7 +33,6 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-		System.out.println("plzzz???");
 		String path = "";
 		if ("mvjoin".equals(action)) {
 			path = "/user/join.jsp";
@@ -147,7 +146,7 @@ public class UserController extends HttpServlet {
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "";
+		return "/index.jsp";
 	}
 
 	private String withdraw(HttpServletRequest request, HttpServletResponse response) {

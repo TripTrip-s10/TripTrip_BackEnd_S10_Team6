@@ -2,9 +2,10 @@
     pageEncoding="UTF-8" import= "java.util.*,  com.triptrip.board.dto.Board, com.triptrip.board.service.BoardService, com.triptrip.board.service.BoardServiceImpl" %>
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
-<% 
+<%
 	BoardService boardService = BoardServiceImpl.getService();	
-	List<Board> articles = new ArrayList<>();%>
+	List<Board> articles = boardService.getArticlesLimit();
+%>
 <!-- 메인 페이지 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -64,9 +65,8 @@
                   <div class="row">
  <% for(int i =0; i<articles.size(); i++){ %>
                     <div class="col-lg-3 col-sm-6">
-                      <div class="item">
-                        <a href="#" class="article-title" data-no=<%=articles.get(i).getId() %>>
-                        <img src="assets/img/popular-01.jpg" alt="" />
+                      <div class="item" >
+                        <a  style="margin:0px" href="#" class="article-title" data-no=<%=articles.get(i).getId() %>>
                         <h4><%=articles.get(i).getTitle() %><br /><span>서울</span></h4>
                         </a>
                       </div>

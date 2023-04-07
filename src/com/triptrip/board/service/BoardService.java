@@ -10,13 +10,15 @@ import com.triptrip.util.PageNavigation;
 public interface BoardService {
 	void write(Board board) throws SQLException;
 
+	List<Board> getArticles() throws SQLException;
+
+	List<Board> getArticlesLimit() throws SQLException;
+
+	Board getArticle(int boardId) throws SQLException;
+
 	void update(Board board) throws SQLException;
 
 	void delete(int boardId) throws SQLException;
 
-	List<Board> listArticle() throws SQLException;
-
-	Board getArticle(int boardId) throws SQLException;
-	
 	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 }
