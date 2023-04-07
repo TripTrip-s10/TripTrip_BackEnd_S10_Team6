@@ -93,15 +93,9 @@
 													</div>
 													<c:forEach var="plan" items="${plans}">
 														<div class="col-lg-3 col-sm-6">
-<<<<<<< HEAD
-															<div class="item">
-																<h4 class="plan-title" data-no="${plan.planId}"
-																	style="margin: 0px">${plan.title}</h4>
-=======
 															<div class="item" data-no="${plan.planId}">
 																<h4 style="margin: 0px">
 																	${plan.title}</h4>
->>>>>>> 7198cf9b4c56d90caa1d795204cb21e653342f98
 																<br /> <span>${plan.startDate} <%="-"%>
 																	${plan.endDate}
 																</span>
