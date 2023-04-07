@@ -69,13 +69,15 @@
 									<div class="col-lg-12 ">
 										<form id="auth-form" method="post" action="">
 											<div style="text-align: center">
-												<span class="main-border-button"> <a
-													id="withdraw-button">회원탈퇴</a>
-												</span> <span class="main-border-button"> <a
+												<span class="main-border-button"><input type="hidden"
+													name="action" value="mvwithdraw" /> <a
+													id="mvwithdraw-button">회원탈퇴</a> </span> <span
+													class="main-border-button"> <a
 													data-bs-toggle="modal" data-bs-target="#profileModal"
 													href="#">회원정보 수정</a>
-												</span> <input type="hidden" name="action" value="logout" /> <span
-													class="main-border-button"> <a id="logout-button">로그아웃</a>
+												</span> <span class="main-border-button"> <input
+													type="hidden" name="action" value="logout" /> <a
+													id="logout-button">로그아웃</a>
 												</span>
 											</div>
 										</form>
@@ -92,8 +94,8 @@
 													<c:forEach var="plan" items="${plans}">
 														<div class="col-lg-3 col-sm-6">
 															<div class="item">
-																<h4 class="plan-title" data-no="${plan.planId}" style="margin: 0px">
-																	${plan.title}</h4>
+																<h4 class="plan-title" data-no="${plan.planId}"
+																	style="margin: 0px">${plan.title}</h4>
 																<br /> <span>${plan.startDate} <%="-"%>
 																	${plan.endDate}
 																</span>
@@ -166,6 +168,10 @@
 			});
 		});
 		document.querySelector("#logout-button").addEventListener("click",
+				function() {
+					location.href = "${root}/user?action=logout"
+				});
+		document.querySelector("#mvwithdraw-button").addEventListener("click",
 				function() {
 					let form = document.querySelector("#auth-form");
 					form.setAttribute("action", "${root}/user");

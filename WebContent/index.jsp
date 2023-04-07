@@ -3,6 +3,7 @@
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <%
+	UserService userService = UserServiceImpl.getUserService();
 	BoardService boardService = BoardServiceImpl.getService();	
 	List<Board> articles = boardService.getArticlesLimit();
 %>
@@ -60,14 +61,14 @@
               <div class="row">
                 <div class="col-lg-12">
                   <div class="heading-section">
-                    <h4><em>요즘 가장 인기있는</em>&nbsp;&nbsp;여행 게시물</h4>
+                    <h4><em>최근에 올라온</em>&nbsp;&nbsp;여행 게시물</h4>
                   </div>
                   <div class="row">
  <% for(int i =0; i<articles.size(); i++){ %>
                     <div class="col-lg-3 col-sm-6">
-                      <div class="item" >
-                        <a  style="margin:0px" href="#" class="article-title" data-no=<%=articles.get(i).getId() %>>
-                        <h4><%=articles.get(i).getTitle() %><br /><span>서울</span></h4>
+                      <div class="item" data-no=<%=articles.get(i).getId() %>>
+                        <a  style="margin:0px" href="#" class="article-title">
+                        <h4><%=articles.get(i).getTitle() %><br /><span>by <%=userService.findById(articles.get(i).getUserId()).getName()  %></span></h4>
                         </a>
                       </div>
                     </div>
@@ -105,7 +106,7 @@
 <!--  <script src="assets/js/main.js"></script> -->    
     <script src="assets/js/profile.js"></script>
 	<script>
-		let title = document.querySelectorAll(".article-title");
+		let title = document.querySelectorAll(".item");
 		title.forEach(function(title) {
 			title.addEventListener("click", function() {
 				console.log(this.getAttribute("data-no"));

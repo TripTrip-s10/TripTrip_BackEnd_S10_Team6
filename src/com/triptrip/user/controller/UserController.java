@@ -50,13 +50,16 @@ public class UserController extends HttpServlet {
 			System.out.println("logout");
 			path = logout(request, response);
 			redirect(request, response, path);
+		} else if ("mvwithdraw".equals(action)) {
+			path =  "/user/withdraw.jsp";
+			redirect(request, response, path);
 		} else if ("withdraw".equals(action)) {
 			path = withdraw(request, response);
 			redirect(request, response, path);
 		} else if ("profile".equals(action)) {
 			path = profile(request, response);
 			System.out.println("path = " + path);
-			forward(request,response,path);
+			forward(request, response, path);
 		} else {
 			redirect(request, response, path);
 		}
