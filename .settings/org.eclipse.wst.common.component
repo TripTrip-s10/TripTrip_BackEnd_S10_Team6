@@ -9,7 +9,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
                 
         <property name="java-output-path" value="/enjoytrip_backend_s10_team06/build/classes"/>
-        <property name="context-root" value="web"/>
+        <property name="context-root" value="triptrip"/>
             
     </wb-module>
     
