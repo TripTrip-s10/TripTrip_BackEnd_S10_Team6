@@ -2016,6 +2016,17 @@ Profile Style
   margin-bottom: 0;
 }
 
+.main-profile .item {
+  background-color: #fff;
+  padding: 30px 15px;
+  border-radius: 23px;
+  margin-bottom: 30px;
+}
+
+.main-profile .item:hover {
+  box-shadow: 5px 5px #b3b3b3;
+}
+
 .clips {
   margin-top: 30px;
   border-top: 2px solid #fff;

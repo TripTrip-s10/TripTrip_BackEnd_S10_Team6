@@ -65,7 +65,8 @@
 												<a href="#" class="article-title" data-no="${article.id}">
 													<img src="${root}/assets/img/nophoto.png" alt="" />
 													<h4>
-														"${article.title}"<br />
+														${article.title}
+												<br />
 													</h4>
 												</a>
 											</div>
