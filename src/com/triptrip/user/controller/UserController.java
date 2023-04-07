@@ -136,7 +136,7 @@ public class UserController extends HttpServlet {
 				user.setName(userName);
 			if (userMsg != "")
 				user.setMsg(userMsg);
-			return "/user/profile.jsp";
+			return "/user?action=profile";
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "/error/error.jsp";
@@ -146,7 +146,7 @@ public class UserController extends HttpServlet {
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "/index.jsp";
+		return "";
 	}
 
 	private String withdraw(HttpServletRequest request, HttpServletResponse response) {
