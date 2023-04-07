@@ -290,10 +290,12 @@
     // 경로 선 표시
     function addLine(routeMarkers){
     	linePath = [];
+    	var pathBounds = new kakao.maps.LatLngBounds();
     	for(let i = 0; i < routeMarkers.length; i++){
     		linePath.push(routeMarkers[i].getPosition());
+    		pathBounds.extend(routeMarkers[i].getPosition());
     	}
-    	// 선 생성
+	   	// 선 생성
     	polyline = new kakao.maps.Polyline({
 		    path: linePath, 
 		    strokeWeight: 5, 
@@ -303,6 +305,7 @@
 		});
     	
     	polyline.setMap(map);
+    	map.setBounds(pathBounds);
     }
     // 일자별 일정 표시 (우측)
     function viewDay(){
@@ -381,7 +384,7 @@
       
       var places; // 장소 검색 결과를 저장하기 위한 배열
       function placeList(data) {
-    	   places = data; // 전달받은 장소 검색 결과 복사 
+    	 places = data; // 전달받은 장소 검색 결과 복사 
      	 var listEl = document.getElementById("placesList");
          var menuEl = document.getElementById("menu-wrap");
          var fragment = document.createDocumentFragment();
