@@ -132,16 +132,9 @@
 										</c:forEach>
 									</ul>
 								</div>
-								<%
-									if (user != null) {
-								%>
 								<div class="text-button" id="plan-button">
-									<a href="${root}/plan/plan.jsp">일정 만들기</a>
+									<a href="${root}/plan?action=mvplan">일정 만들기</a>
 								</div>
-								<%
-									}
-								%>
-
 							</div>
 						</div>
 					</div>

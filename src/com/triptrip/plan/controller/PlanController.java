@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -55,13 +56,25 @@ public class PlanController extends HttpServlet {
 			try {
 				planList(request,response);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if("view".equals(action)) {
+		}else if("mvplan".equals(action)) {
+			path = mvplan(request,response);
+			redirect(request,response,path);
+		}
+		else if("view".equals(action)) {
 			path = view(request, response);
 			forward(request, response, path);
 		}
+	}
+	
+	private String mvplan(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("userinfo");
+		if(user != null) {
+			return "/plan/plan.jsp";
+		}
+		return "/user/login.jsp";
 	}
 	
 	private void planList(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException{
@@ -101,10 +114,8 @@ public class PlanController extends HttpServlet {
 			}
 			planService.addPlanPlace(planPlaceList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 	}
 
