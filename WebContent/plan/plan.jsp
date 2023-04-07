@@ -228,6 +228,15 @@
         		body: JSON.stringify(obj),
         }
        	fetch("${root}/plan?action=planList", data)
+       		.then(response => response.json())
+       		.then(status => mvProfile(status)); 
+    }
+    function mvProfile(status){
+    	if("ok" === status["status"]){
+    		location.href = "${root}/user?action=profile";
+    	}else if("fail" === status["status"]){
+    		location.href = "${root}/error/error.jsp";
+    	}
     }
     // 일자별 경로 표시
     var routeMarkers = [];

@@ -81,6 +81,7 @@ public class PlanController extends HttpServlet {
 		String body = getBody(request);
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObject = (JSONObject)parser.parse(body);
+		JSONObject jsonStatus= new JSONObject();
 		// plan - 계획 
 		PlanDto planDto = new PlanDto();
 		planDto.setUserId(Integer.parseInt(jsonObject.get("userId").toString()));
@@ -113,10 +114,14 @@ public class PlanController extends HttpServlet {
 				}
 			}
 			planService.addPlanPlace(planPlaceList);
+			jsonStatus.put("status", "ok");
 		} catch (Exception e) {
 			e.printStackTrace();
+			jsonStatus.put("status","fail");
 		}
-		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(gson.toJson(jsonStatus));
 	}
 
 	private String getBody(HttpServletRequest request) throws IOException{

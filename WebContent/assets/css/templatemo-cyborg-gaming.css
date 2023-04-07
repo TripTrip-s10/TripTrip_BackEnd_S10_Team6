@@ -612,7 +612,7 @@ Header Style
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
   border: transparent;
-  padding: 13px 10px;
+  padding: 17px 10px;
   border-radius: 18px;
   letter-spacing: 0.3px;
 }
@@ -627,6 +627,13 @@ Header Style
   max-width: 30px;
   border-radius: 50%;
   margin-left: 5px;
+}
+.header-area .main-nav .nav li:last-child a {
+  border-radius: 23px;
+}
+.header-area .main-nav .nav li:last-child:hover a,
+.header-area .main-nav .nav li:last-child a.active {
+  color: #fff !important;
 }
 
 .header-area .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover,
