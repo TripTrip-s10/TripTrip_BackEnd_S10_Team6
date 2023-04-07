@@ -158,7 +158,7 @@
 									<select class="form-select" id="selectDay"
 										aria-label="Default select example" onchange="viewDay()"></select>
 								</div>
-								<ul class="day-list" style="overflow: auto; height: 518px">
+								<ul class="day-list" style="overflow-x: hidden; overflow-y: visible;  height: 518px">
 								</ul>
 								<div class="text-button" id="create-button"
 									onclick="sendContent()">
