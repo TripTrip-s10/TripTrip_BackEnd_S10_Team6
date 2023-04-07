@@ -272,16 +272,16 @@ p {
 .join-button-small a:hover,
 .withdraw-button a:hover,
 .withdraw-button-small a:hover {
-  background-color: #fff !important;
-  color: rgba(0, 151, 60, 0.8) !important;
+  color: #fff !important;
+  background-color: rgba(0, 151, 60, 0.8) !important;
 }
 
 .login-button a,
 .join-button a,
 .withdraw-button a {
   font-size: 14px;
-  color: #fff !important;
-  background-color: rgba(0, 151, 60, 0.8) !important;
+  background-color: #fff !important;
+  color: rgba(0, 151, 60, 0.8) !important;
   padding: 6px 15px;
   display: inline-block;
   border-radius: 25px;
@@ -1511,8 +1511,8 @@ Featured Games Style
 .planned-place .text-button a,
 .main-border-button a,
 .main-button a {
-  color: rgba(0, 151, 60, 0.8);
-  background-color: #f1f1f1;
+  color: rgba(0, 151, 60, 0.8) !important;
+  background-color: #fff !important;
   padding: 12px;
   border-radius: 23px;
 }
@@ -1523,7 +1523,7 @@ Featured Games Style
 .main-border-button a:hover,
 .main-button a:hover {
   background-color: rgba(0, 151, 60, 0.8) !important;
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .recommended-place .text-button-add a,
 .recommended-place .text-button-add a.non-active,
