@@ -102,7 +102,7 @@ public class BoardDaoImpl implements BoardDao {
 				board = new Board();
 				board.setId(rs.getInt("id"));
 				board.setTitle(rs.getString("title"));
-				board.setContent(rs.getString("content"));
+				board.setContent(rs.getString("content").replace("\r\n", "<br>"));
 				board.setImgSrc(rs.getString("imgSrc"));
 				board.setUserId(rs.getInt("userId"));
 				board.setCreateAt(rs.getTimestamp("createAt").toLocalDateTime());

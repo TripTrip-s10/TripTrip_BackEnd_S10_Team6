@@ -190,6 +190,7 @@ public class BoardController extends HttpServlet {
 	private String delete(HttpServletRequest request, HttpServletResponse response) {
 		int articleId = Integer.parseInt(request.getParameter("articleno"));
 		try {
+			boardService.delete(articleId);
 			return "/board?action=list";
 		} catch (Exception e) {
 			return "/error/error.jsp";
