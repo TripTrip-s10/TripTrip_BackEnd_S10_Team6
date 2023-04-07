@@ -6,6 +6,7 @@
 	UserService userService = UserServiceImpl.getUserService();
 	BoardService boardService = BoardServiceImpl.getService();	
 	List<Board> articles = boardService.getArticlesLimit();
+	System.out.println(articles.toString());
 %>
 <!-- 메인 페이지 -->
 <!DOCTYPE html>

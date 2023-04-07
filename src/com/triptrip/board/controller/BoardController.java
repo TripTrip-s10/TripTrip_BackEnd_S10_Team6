@@ -57,6 +57,7 @@ public class BoardController extends HttpServlet {
 			redirect(request, response, path);
 		} else if ("view".equals(action)) {
 			path = view(request, response);
+			System.out.println(path);
 			forward(request, response, path);
 		} else if ("list".equals(action)) {
 			path = viewList(request, response);
@@ -126,6 +127,7 @@ public class BoardController extends HttpServlet {
 
 	private String view(HttpServletRequest request, HttpServletResponse response) {
 		int articleId = Integer.parseInt(request.getParameter("articleno"));
+		System.out.println(articleId);
 		try {
 			Board article = boardService.getArticle(articleId);
 			System.out.println("view:" + article.toString());

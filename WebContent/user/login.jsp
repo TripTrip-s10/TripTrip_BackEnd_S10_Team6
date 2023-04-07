@@ -73,9 +73,9 @@
 										id="signIn">로그인</a>
 									</span> <span class="join-button" id="mvjoin-button"> <a
 										href="join.jsp" id="signUp">회원가입</a>
-									</span> <span class="join-button" id="find-pw-button"> <a
-										href="#" data-bs-toggle="modal" data-bs-target="find-pw-modal"
-										id="findPw">비밀번호 찾기</a>
+									</span> 
+									<span class="join-button" id="find-pw-button"> 
+									<a href="#" data-bs-toggle="modal" data-bs-target="#find-pw-modal"id="findPw">비밀번호 찾기</a>
 									</span>
 								</div>
 
@@ -106,12 +106,16 @@
 							<input type="text" class="form-control" placeholder="이메일 주소"
 								id="userid" name="userid" />
 						</div>
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="이메일 주소"
+								id="userid" name="userid" />
+						</div>
 					</div>
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary"
-							data-bs-dismiss="modal" id="find-pw-btn">메일인증하기</button>
+							data-bs-dismiss="modal" id="find-pw-btn">비밀번호 재설정하기</button>
 					</div>
 				</form>
 			</div>
@@ -120,42 +124,30 @@
 	</div>
 	<!-- ProfileEdit Modal end -->
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<p>
-						Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights
-						reserved. <br />Design: <a href="https://templatemo.com"
-							target="_blank" title="free CSS templates">TemplateMo</a>
-						Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
 	<!-- Scripts -->
 	<!-- Bootstrap core JavaScript -->
 	<script src="${root}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${root}/assets/js/profile.js"></script>
 	<script>
-      document.querySelector("#mvjoin-button").addEventListener("click", function () {
-    	location.href = "${root}/user?action=mvjoin";
-      });
-      
-      document.querySelector("#login-button").addEventListener("click", function () {
-        if (!document.querySelector("#userid").value) {
-          alert("아이디 입력!!");
-          return;
-        } else if (!document.querySelector("#userpwd").value) {
-          alert("비밀번호 입력!!");
-          return;
-        } else {
-          let form = document.querySelector("#auth-form");
-          form.setAttribute("action", "${root}/user");
-          form.submit();
-        }
-      });
-    </script>
+		document.querySelector("#mvjoin-button").addEventListener("click",
+				function() {
+					location.href = "${root}/user?action=mvjoin";
+				});
+
+		document.querySelector("#login-button").addEventListener("click",
+				function() {
+					if (!document.querySelector("#userid").value) {
+						alert("아이디 입력!!");
+						return;
+					} else if (!document.querySelector("#userpwd").value) {
+						alert("비밀번호 입력!!");
+						return;
+					} else {
+						let form = document.querySelector("#auth-form");
+						form.setAttribute("action", "${root}/user");
+						form.submit();
+					}
+				});
+	</script>
 </body>
 </html>

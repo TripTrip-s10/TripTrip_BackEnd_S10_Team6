@@ -74,7 +74,7 @@
 							</div>
 						</div>
 					</div>
-<%if(user.getId() !=  writer.getId()) {%>
+<%if(user != null && user.getId() !=  writer.getId()) {%>
 					<div style="float: right">
 						<span class="login-button" id="mvupdate-button"> <a>수정하기</a>
 						</span> <span class="join-button" id="delete-button"> <a>삭제하기</a>
