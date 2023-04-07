@@ -574,17 +574,6 @@ Header Style
   letter-spacing: 0.3px;
 }
 
-.header-area .main-nav .nav li:last-child a {
-  background-color: #f1f1f1;
-  padding: 8px 10px 8px 20px;
-  border-radius: 23px;
-}
-
-.header-area .main-nav .nav li:last-child a img {
-  max-width: 30px;
-  border-radius: 50%;
-  margin-left: 5px;
-}
 
 .header-area .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover,
 .background-header .main-nav .nav li.has-sub ul.sub-menu li:last-child a:hover {
@@ -594,12 +583,6 @@ Header Style
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
   color: rgba(0, 151, 60, 0.8) !important;
-}
-
-.header-area .main-nav .nav li:last-child:hover a,
-.header-area .main-nav .nav li:last-child a.active {
-  color: #fff !important;
-  background-color: rgba(0, 151, 60, 0.8) !important;
 }
 
 .background-header .main-nav .nav li:hover a,
