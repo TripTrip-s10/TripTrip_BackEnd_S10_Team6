@@ -99,7 +99,7 @@ public class BoardController extends HttpServlet {
 		User user = (User) session.getAttribute("userinfo");
 		if(user == null)
 			return "/user/login.jsp";
-		return  "/board/write.jsp";
+		return  "/board/createArticle.jsp";
 	}
 
 	
