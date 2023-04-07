@@ -639,11 +639,6 @@ Header Style
   color: rgba(0, 151, 60, 0.8) !important;
 }
 
-.header-area .main-nav .nav li:last-child:hover a,
-.header-area .main-nav .nav li:last-child a.active {
-  color: #fff !important;
-  background-color: rgba(0, 151, 60, 0.8) !important;
-}
 
 .background-header .main-nav .nav li:hover a,
 .background-header .main-nav .nav li a.active {
