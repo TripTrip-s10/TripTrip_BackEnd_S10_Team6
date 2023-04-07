@@ -268,8 +268,10 @@
 		// 경로 선 표시
 		function addLine(routeMarkers) {
 			linePath = [];
+			var pathBounds = new kakao.maps.LatLngBounds();
 			for (let i = 0; i < routeMarkers.length; i++) {
 				linePath.push(routeMarkers[i].getPosition());
+				pathBounds.extend(routeMarkers[i].getPosition());
 			}
 			// 선 생성
 			polyline = new kakao.maps.Polyline({
@@ -281,6 +283,7 @@
 			});
 
 			polyline.setMap(map);
+			map.setBounds(pathBounds);
 		}
 		// 일자별 일정 표시 (우측)
 		function viewDay() {
@@ -297,10 +300,8 @@
 									: planDict[selectedDayNum][i]["imageUrl"])
 							+ ' alt="" class="templatemo-item" /></div>'
 							+ '<div class="col-sm-8 col-md-9 col-xl-8">'
-							+ '<h4>'
-							+ planDict[selectedDayNum][i]["title"]
-							+ '</h4>'
-							+ '<h6>'
+							+ '<h4>' + planDict[selectedDayNum][i]["title"]
+							+ '</h4>' + '<h6>'
 							+ planDict[selectedDayNum][i]["addr"]
 							+ '</h6></div> '
 					el.innerHTML = item;
