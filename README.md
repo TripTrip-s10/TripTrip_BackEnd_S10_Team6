@@ -3,11 +3,11 @@
 ![메인페이지](https://user-images.githubusercontent.com/35604947/230724607-14c1f774-d878-4c57-94d7-f5954de2a81e.png)
 
 ## 💻 Service Summary
-### 1. 관광지 정보 조회 및 여행 계획 관리
+- 관광지 정보 조회 및 여행 계획 관리
 ![관광지정보조회 (4)](https://user-images.githubusercontent.com/35604947/230818504-07341286-3e0d-4695-9c16-829c62f8a519.jpg)
-### 2. 회원 관리
+- 회원 관리
 ![관광지정보조회 (6)](https://user-images.githubusercontent.com/35604947/230819508-9b9b6c2c-ed36-461c-bd2c-054b2a7b901b.jpg)
-### 3. 게시판
+- 게시판
 ![게시판](https://user-images.githubusercontent.com/35604947/230820154-1e16617b-3821-48ca-9d36-78f7cfaef5f4.jpg)
 
 ## ⚙️ Function Introduction
