@@ -180,8 +180,7 @@
       
  
       // 인증키
-      var serviceKey =
-        "JCyOGVbsb1Yqpl0GcIpGaNz0ymTTpdCqWV1IOSvYucmTFnyhHyfiBZzy0C2zR45oWXCw%2FO96GtOOsAPPQYsm8A%3D%3D";
+      var serviceKey; // 카카오 api key
       // 마커 이미지의 이미지 주소입니다
       var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
       // 마커 이미지의 이미지 크기 입니다
