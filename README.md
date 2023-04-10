@@ -20,6 +20,9 @@
 - 여행 계획 게시판 관리
   - 인기 계획 게시물 노출
 
+## 💽 ERD
+
+
 ## 🚀 File Logic
 
 ```
@@ -106,3 +109,34 @@
     ├─plan
     └─user
 ```
+
+## 👩🏻‍💻 Back-End Developers
+<div align="center"> 
+  <table>
+     <tr align="center">
+        <td>
+           <B>전수민</B>
+        </td>
+        <td>
+           <B>허예림</B>
+        </td>
+     </tr>
+     <tr align="center">
+        <td>
+           <img src="https://github.com/squirMM.png?size=100">
+           <br>
+           <a href="https://github.com/squirMM">
+              <I>squirMM</I>
+           </a>
+        </td>
+        <td>
+           <img src="https://github.com/yerimstar.png?size=100" width="100">
+           <br>
+           <a href="https://github.com/yerimstar">
+              <I>yerimstar</I>
+           </a>
+        </td>
+     </tr>
+  </table>
+</div>
+
