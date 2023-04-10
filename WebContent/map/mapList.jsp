@@ -156,7 +156,7 @@
 	<!-- <script src="../assets/js/map.js"></script> -->
 	<script src="${root}/assets/js/main.js"></script>
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9da8d6f85b070cbbce9075ad5616807"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey="></script>
 	<script>
 	  // 시/도 선택 
       document.getElementById("btn-search").addEventListener("click", function(){
