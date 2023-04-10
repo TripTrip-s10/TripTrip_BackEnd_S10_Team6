@@ -180,7 +180,7 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9da8d6f85b070cbbce9075ad5616807&libraries=services"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script>
 
 	<script>
 	var planDict = {};
