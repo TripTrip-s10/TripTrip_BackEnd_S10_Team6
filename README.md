@@ -27,7 +27,7 @@
   - 인기 계획 게시물 노출
 
 ## 💽 ERD
-
+![ERD (2)](https://user-images.githubusercontent.com/35604947/230821853-a8df9f09-f55e-437f-a2aa-7a16bfce861d.png)
 
 ## 🚀 File Logic
 
